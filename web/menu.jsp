@@ -238,15 +238,11 @@
     <script src="lib/legacy.js?v=1.1.0"></script>
     <script src="js/traer_clases.js?v=1.1.3" type="text/javascript"></script>
     <script src="js/grilla.js" type="text/javascript"></script>
-    
-   <!-- Custom scripts for all pages-->
-   <script src="js/multi_select.js" type="text/javascript"></script>
-   <script src="estilos/js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="js/multi_select.js" type="text/javascript"></script>
+    <script src="estilos/js/jquery-ui.min.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js" type="text/javascript"></script>
    
-   
- 
-</body>
+    </body>
  <footer class="sticky-footer bg-gradient-light  ">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">

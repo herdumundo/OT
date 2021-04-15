@@ -172,6 +172,75 @@ $(document).ready(function()
         }
                 });      
      }     
+    function ir_creacion_operarios()
+    {
+        $.ajax({
+        type: "POST",
+        url: ruta_contenedores+'contenedor_crear_operarios.jsp',
+        beforeSend: function() 
+        {
+            $('#div_cargar_menu').show();
+            $('#contenido_row').html('');
+        },           
+        success: function (res) 
+        {
+            $('#contenido').html(res);
+            
+            ir_grilla_operarios();
+             $('#form_add_operario').on('submit', function(event)
+            {    
+                event.preventDefault();
+                registrar_operario();
+                event.stopPropagation();
+            }); 
+            
+               $('#form_upd_operario').on('submit', function(event)
+            {    
+                event.preventDefault();
+                actualizar_operario();
+                event.stopPropagation();
+            }); 
+            
+          
+        }
+                });      
+     }   
+     
+     
+    function ir_creacion_proveedores()
+    {
+        $.ajax({
+        type: "POST",
+        url: ruta_contenedores+'contenedor_crear_proveedores.jsp',
+        beforeSend: function() 
+        {
+            $('#div_cargar_menu').show();
+            $('#contenido_row').html('');
+        },           
+        success: function (res) 
+        {
+            $('#contenido').html(res);
+            
+            ir_grilla_proveedores();
+            $('#form_add_proveedor').on('submit', function(event)
+            {    
+                event.preventDefault();
+                registrar_proveedor();
+                event.stopPropagation();
+            }); 
+            
+               $('#form_upd_proveedor').on('submit', function(event)
+            {    
+                event.preventDefault();
+                 actualizar_proveedor();
+                event.stopPropagation();
+            }); 
+            
+            
+          
+        }
+                });      
+     }   
     
     function ir_creacion_roles_areas()
     {
@@ -552,7 +621,27 @@ $(document).ready(function()
             
         });
     }      
+        function ir_grilla_operarios()
+    {
+        $.get(ruta_grillas+'grilla_operarios.jsp', function(res)
+        {
+            $("#grilla_operarios").html('');
+            $("#grilla_operarios").html(res);
+            $("#table_operarios").DataTable();
+            
+        });
+    }
     
+         function ir_grilla_proveedores()
+    {
+        $.get(ruta_grillas+'grilla_proveedores.jsp', function(res)
+        {
+            $("#grilla_proveedores").html('');
+            $("#grilla_proveedores").html(res);
+            $("#table_proveedores").DataTable();
+            
+        });
+    }
     function filtro_subcat()
     {
         $.get(ruta_consultas+'consulta_subcat.jsp',{id_maquina:$("#cbox_maquina").val()},function(res)
@@ -652,6 +741,174 @@ $(document).ready(function()
             success: function (res) 
             {
                 aviso_registro_user(res.tipo_respuesta,res.mensaje)  ;          
+            }
+                });
+               
+                
+            }
+    }); 
+   }
+ 
+ 
+    function registrar_proveedor(){
+        Swal.fire({
+        title: 'CONFIRMACION',
+        text: "DESEA CREAR EL NUEVO PROVEEDOR?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, CREAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_crear_proveedor.jsp',
+                data: $("#form_add_proveedor").serialize(),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                aviso_registro_proveedor(res.tipo_respuesta,res.mensaje,'modal_add_proveedor')  ;          
+            }
+                });
+               
+                
+            }
+    }); 
+   }
+    function registrar_operario(){
+        Swal.fire({
+        title: 'CONFIRMACION',
+        text: "DESEA CREAR EL NUEVO OPERARIO?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, CREAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_crear_operario.jsp',
+                data: $("#form_add_operario").serialize(),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                aviso_registro_operario_proveedor(res.tipo_respuesta,res.mensaje,'modal_add_operarios')  ;          
+            }
+                });
+               
+                
+            }
+    }); 
+   }
+    
+    function actualizar_operario(){
+        Swal.fire({
+        title: 'CONFIRMACION',
+        text: "DESEA REGISTRAR LOS CAMBIOS?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, REGISTRAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_actualizar_operario.jsp',
+                data: $("#form_upd_operario").serialize(),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                aviso_registro_operario_proveedor(res.tipo_respuesta,res.mensaje,'modal_upd_operario')  ;          
+            }
+                });
+               
+                
+            }
+    }); 
+   }
+   
+      function actualizar_proveedor(){
+        Swal.fire({
+        title: 'CONFIRMACION',
+        text: "DESEA REGISTRAR LOS CAMBIOS?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, REGISTRAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_actualizar_proveedor.jsp',
+                data: $("#form_upd_proveedor").serialize(),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                aviso_registro_proveedor(res.tipo_respuesta,res.mensaje,'modal_upd_proveedor')  ;          
             }
                 });
                
@@ -967,6 +1224,45 @@ $(document).ready(function()
         
    }
   
+    function aviso_registro_operario_proveedor(tipo,mensaje,modal){
+       if(tipo=="1"){
+        swal.fire({
+                type: 'success',
+                text:mensaje,
+                confirmButtonText: "CERRAR"
+                });
+                 ir_grilla_operarios();
+                  $('#'+modal).modal('toggle'); 
+       }
+       else {
+           swal.fire({
+                type: 'error',
+                html:mensaje,
+                confirmButtonText: "CERRAR"
+                });  
+       }
+        
+   }
+
+    function aviso_registro_proveedor(tipo,mensaje,modal){
+       if(tipo=="1"){
+        swal.fire({
+                type: 'success',
+                text:mensaje,
+                confirmButtonText: "CERRAR"
+                });
+                 ir_grilla_proveedores();
+                  $('#'+modal).modal('toggle'); 
+       }
+       else {
+           swal.fire({
+                type: 'error',
+                html:mensaje,
+                confirmButtonText: "CERRAR"
+                });  
+       }
+        
+   }
     function aviso_registro_area_rol(tipo,mensaje,id_modal,control,form){
         if(tipo=="1")
        {
@@ -1017,7 +1313,7 @@ $(document).ready(function()
                }
         }); 
        }
-       else {
+        else {
            swal.fire({
                 type: 'error',
                 html:mensaje,
@@ -1072,7 +1368,20 @@ $(document).ready(function()
             $('#select_opciones').selectpicker('refresh');
         });        
     }
+    function actualizar_estado_operario(id,estado){
+        $.get(cruds+'control_actualizar_operario_estado.jsp',{id:id,estado:estado},function(res)
+        {
+            
+        });
+    }
     
+     function actualizar_estado_proveedor(id,estado){
+        $.get(cruds+'control_actualizar_proveedor_estado.jsp',{id:id,estado:estado},function(res)
+        {
+            
+        });
+    }
+
     
     function aprobar_registro(id_pedido) {
 
