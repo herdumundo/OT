@@ -12,9 +12,12 @@
 <%   
     Connection cn = conexion.crearConexion();
     fuente.setConexion(cn);
+    String desde    =   request.getParameter("desde");
+    String hasta    =   request.getParameter("hasta");
+
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
     
- ResultSet rs = fuente.obtenerDato("SELECT * FROM v_mae_ot_pedidos_generados where   id_area in (select id_area  from mae_ot_det_areas where id_usuario="+id_usuario+"  )");
+ ResultSet rs = fuente.obtenerDato("SELECT * FROM v_mae_ot_pedidos_generados where   id_area in (select id_area  from mae_ot_det_areas where id_usuario="+id_usuario+"  )  and fecha_registro between '"+desde+"' and '"+hasta+"'");
       
 %>
 <table id="table_pendientes" class="display nowrap" style="width:100%">

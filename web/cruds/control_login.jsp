@@ -29,14 +29,16 @@
         sesionOk.setAttribute("id_rol",rs.getString("id_rol"));
         sesionOk.setAttribute("desc_rol",rs.getString("desc_rol"));
         response.sendRedirect("../menu.jsp"); 
-        modelos.cargar_areas();
+        
         modelos.cargar_niveles();
+        modelos.cargar_usuarios_correos();
         modelos.cargar_opciones();//llena lista de niveles.
         modelos.cargar_roles();//llena lista de niveles.
         sesionOk.setAttribute("combo_nivel",modelos.combo);
-        sesionOk.setAttribute("combo_areas",modelos.combo_areas);
+        sesionOk.setAttribute("combo_areas",modelos.cargar_areas());
         sesionOk.setAttribute("combo_opciones",modelos.combo_opciones);
         sesionOk.setAttribute("combo_roles",modelos.combo_roles);
+        sesionOk.setAttribute("combo_correos",modelos.combo_correos);
 
     } 
     else

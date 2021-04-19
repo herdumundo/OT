@@ -28,7 +28,6 @@
     <link href="estilos/css/colores.css" rel="stylesheet" type="text/css"/>
     <link href="estilos/css/parpadeo.css" rel="stylesheet" type="text/css"/>
     <link href="estilos/efecto_boton.css" rel="stylesheet" type="text/css"/>
-      
     <link href="estilos/css/dataTables.css" rel="stylesheet" type="text/css"/>
     <link href="estilos/css/select.dataTables.css" rel="stylesheet" type="text/css"/>
     <link href="estilos/css/checkboxes.css" rel="stylesheet" type="text/css"/>
@@ -107,29 +106,9 @@
 
         <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1"  id="notificacion">
-          <a class="nav-link dropdown-toggle  " href="#"  id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-bell fa-fw "></i>
-        <!-- Counter - Alerts -->
-        <span class="badge badge-danger badge-counter">1</span>
-          </a>
-          <!-- Dropdown - Alerts -->
-          <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-        <h6 class="dropdown-header bg-danger">
-          Notificaciones
-        </h6>
-        <a class="dropdown-item d-flex align-items-center" >
-          <div class="mr-3">
-            <div class="icon-circle bg-danger">
-              <i class="fas fa-file-alt text-white"></i>
-            </div>
-          </div>
-          <div onclick="traer_pendiente_liberacion()" > 
-              <div class="small text-gray-500" >Aviso</div>
-            <span class="font-weight-bold">Cuenta con pendientes de aprobacion</span>
-          </div>
-        </a>
          
-           </div>
+          <!-- Dropdown - Alerts -->
+          
         </li>
 
         <!-- Nav Item - Messages -->
@@ -168,6 +147,18 @@
         <div id="contenido"  >
 
         </div>
+        
+        <div class="container33 " id="loading_cubo" style="display: none">
+            <br><br><br><br><br><br><br><br><br><br>
+            <div class="cube">
+                <div class="side side1"></div>
+                <div class="side side2"></div>
+                <div class="side side3"></div>
+                <div class="side side4"></div>
+                <div class="side side5"></div>
+                <div class="side side6"></div>
+            </div>
+        </div>
     </div>
       
     
@@ -175,14 +166,7 @@
     </div>
         
         
-	
 	 
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      
-   
-      <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->

@@ -3,10 +3,14 @@
     Created on : 07/04/2021, 08:53:01 AM
     Author     : hvelazquez
 --%>
+<%@page import="consultas_java.correo_string"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.CallableStatement"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Connection"%>
+ <%@page import="consultas_java.SendEmail"%>
+
 <%@ page session="true" %>
 <%@include  file="../chequearsesion.jsp" %>
 <jsp:useBean id="conexion" class="clases.bdconexion1" scope="page" />
@@ -21,6 +25,7 @@
 
     String id_usuario           = (String) sesionOk.getAttribute("id_usuario");
     String id_nivel             = (String) sesionOk.getAttribute("id_nivel");
+    String usuario             = (String) sesionOk.getAttribute("usuario");
 
     String tipo_pedido          = request.getParameter("tipo_pedido");
     String descripcion          = request.getParameter("descripcion");
@@ -29,8 +34,11 @@
     String id_maquina           = request.getParameter("cbox_maquina");
     String id_subcat            = request.getParameter("id_categoria");
     String id_tipo_problema     = request.getParameter("cbox_tipo_problem");
-        
+    String [] correos;
+    String   correo="";
     String mensaje="";
+       ArrayList<correo_string> lista_correo;
+
     int tipo_respuesta=0;    try 
     {
         cn.setAutoCommit(false);
@@ -57,9 +65,26 @@
                 }   
                 else  
                 {
-                     //cn.rollback(); 
-                    cn.commit();
-                }    
+                    int i=0;
+                     cn.commit();
+                 /*    ResultSet rs = fuente.obtenerDato("select   a.correo from mae_ot_usuario a inner join mae_ot_correos_envio b  on a.id=b.id_usuario_envio_correo  where b.id_usuario="+id_usuario+" and b.id_nivel="+id_nivel+"");
+                     while (rs.next()) 
+                     {
+                        i++;
+                        if(i==1)
+                        {
+                            correo=correo+rs.getString(1);
+                        }
+                        else 
+                        {
+                            correo=correo+","+rs.getString(1);
+                        }
+                    }
+                        if(i>=1){
+                            SendEmail.enviarCorreo(descripcion,usuario+": "+detalle_problema,correo); 
+                         }
+                     rs.close();*/
+                  }    
                 ob.put("mensaje", mensaje);
                 ob.put("tipo_respuesta", tipo_respuesta);
            

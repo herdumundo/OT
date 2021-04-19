@@ -84,11 +84,11 @@ $(document).ready(function()
         }); 
          
         $('#div_pendientes_todos').click(function(){
-           ir_contenedor_pendientes("grilla_pendientes_todos.jsp");;
+           ir_contenedor_pendientes("grilla_pendientes_todos.jsp",1);
         });
         
-          $('#div_pendientes_estado').click(function(){
-           ir_contenedor_pendientes("grilla_pedidos_general.jsp");;
+        $('#div_pendientes_estado').click(function(){
+           ir_contenedor_pendientes("grilla_pedidos_general.jsp",2);
         });
     }
   
@@ -151,7 +151,10 @@ $(document).ready(function()
         {
             $('#contenido').html(res);
             $("#div_areas").css('background-color','LemonChiffon');  
-           
+            cargar_usuario_combo();
+         
+                 
+
             ir_grilla_usuarios();
              $('#form_add_user').on('submit', function(event)
             {    
@@ -167,7 +170,7 @@ $(document).ready(function()
                 event.stopPropagation();
             }); 
             
-          $('.selectpicker').selectpicker();
+       
           
         }
                 });      
@@ -342,8 +345,20 @@ $(document).ready(function()
                 });      
   }
     
-    
-    function ir_contenedor_pendientes(pagina){
+   function ir_grilla_pedidos_general(){
+       $("#div_table_pendientes").html('');
+       $('#loading_cubo').show();
+       
+         $.get(ruta_grillas+'grilla_pedidos_general.jsp',({desde:$('#fecha_desde').val(),hasta:$('#fecha_hasta').val()}), function(res)
+                {
+                    $('#loading_cubo').hide();
+                    
+                    $("#div_table_pendientes").html(res);
+                    activar_datatable_pendientes();
+                } );   
+   }
+    function ir_contenedor_pendientes(pagina,tipo)
+    {
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_pendientes.jsp',
@@ -357,130 +372,23 @@ $(document).ready(function()
         success: function (res) 
         {
             $('#contenido').html(res);
-       
-              $.get(ruta_grillas+pagina, function(res)
-        {
-            $("#div_table_pendientes").html(res);
-            $("#table_pendientes").DataTable(
-            { scrollY:        "500px",
-            scrollX:        true,
-                order: [[11, 'desc']],
-        rowGroup: {
-            //startRender: null,
-            startRender: function ( rows, group ) {
-            
-               return $('<tr/>')
-                    .addClass('colorCheck')
-                    .append( '<td>' + group + '</td>' )
-                    .append( '<td>(TOTAL:' +  rows.count() + ')</td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-            },
-            dataSrc: 11
-        },
-        dom: 'Bfrtip',
-            "pageLength": 100,
-       
-            "language": {
-                "sSearch":         "Buscar:",
-                "sLengthMenu":     "Mostrar _MENU_ registros",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                            "sFirst":    "Primero",
-                            "sLast":     "Último",
-                            "sNext":     "Siguiente",
-                            "sPrevious": "Anterior"
-                        }, 
-             //  "sUrl": "js/Spanish.txt" ,
-               buttons: {
-                copyTitle: 'DATOS COPIADOS',
-                copySuccess: {
-                    _: '%d FILAS COPIADAS' 
-                }
-            }  
-        },
-         buttons: [
+            if(tipo==1)
             {
-                extend: 'copyHtml5',
-                text: 'COPIAR GRILLA',
-                exportOptions: {
-                columns: [ 0, ':visible' ]
-                    }
-            },
+                $.get(ruta_grillas+pagina, function(res)
+                {
+                    $("#div_table_pendientes").html(res);
+                    activar_datatable_pendientes();
+                } );            
+            }
+            else
             {
-                extend: 'excelHtml5',
-                title:'INFORME PEDIDOS',                
-                text: 'EXCEL',
-                     
-            
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: 'PDF',
-                title: 'INFORME PEDIDOS',
-                orientation: 'landscape',
-                pageSize: 'LEGAL',
-                customize: function(doc) {
-                  
-                    doc.styles.title = {
-                      color: 'white',
-                      fontSize: '20',
-                      background: 'black',
-                      alignment: 'center'
-                      
-                    }
-                    doc.styles.tableHeader = {
-                       fontSize: '6'
-                    }
-                    doc.styles.tableBodyEven = {
-                      fontSize: '6'
-                    }
-                    doc.styles.tableBodyOdd = {
-                       fontSize: '6'
-                    }
-                   doc.styles.tableFooter = {
-                       fontSize: '6'
-                    }
-                   doc.styles['td:nth-child(2)'] = { 
-                      width: '100px',
-                      'max-width': '100px'
-                    }
-                  }   ,
-                exportOptions: {
-                    columns: ':visible'
-                 }
-            },
-            'colvis'
-        ], keys: {
-        clipboard: false
-        }});
-            } );
+                $("#div_fechas").show();
+                cargar_estilo_calendario();
+            }
            
-            
-        
-        
-         }
+        }
                 });      
-  } 
+    } 
     
     
     function ir_grilla_pendiente_aprobaciones(pagina)
@@ -603,7 +511,14 @@ $(document).ready(function()
             $("#cbox_maquina").html(res.cbox_maquina);
         });
     }   
-    
+      function cargar_usuario_combo()
+    {
+        $.get(ruta_consultas+'consulta_usuarios.jsp', function(res)
+        {
+            $("#cbox_multi_usuario").html(res.cbox_usuario);
+            $('#cbox_multi_usuario').selectpicker();
+        });
+    }   
     function cargar_rol()
     {
         $.get(ruta_consultas+'consulta_roles.jsp', function(res)
@@ -617,7 +532,7 @@ $(document).ready(function()
         {
             $("#grilla_usuarios").html('');
             $("#grilla_usuarios").html(res);
-            $("#table_usuarios").DataTable();
+            $("#table_usuarios").DataTable({ scrollX:        true});
             
         });
     }      
@@ -1058,39 +973,62 @@ $(document).ready(function()
                 data: ({id_usuario:id_usuario,id_nivel:id_nivel,tipo:tipo}),
                 beforeSend: function() 
                 {
-                    Swal.fire({
+                   /* Swal.fire({
                     title: 'PROCESANDO!',
                     html: 'ESPERE<strong></strong>...',
                     allowOutsideClick: false,
                     onBeforeOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
-                        }, 1000);
-                    } 
-                    });
+                    Swal.showLoa*/
                 },           
             success: function (res) 
             {
-                aviso_upd_user(res.tipo_respuesta,res.mensaje)            
+               // aviso_upd_user(res.tipo_respuesta,res.mensaje)            
             }
                 });
 }
-
-    function actualizar_areas_usuario(areas,id_usuario){
+  function actualizar_nivel_usuario(id_usuario,id_nivel,tipo,id_combo){
     
        $.ajax({
                 type: "POST",
-                url: cruds+'control_actualizar_usuario_areas.jsp',
-                data: ({id_usuario:id_usuario,areas:areas}),
+                url: cruds+'control_actualizar_usuario_nivel.jsp',
+                data: ({id_usuario:id_usuario,id_nivel:id_nivel,tipo:tipo}),
                 beforeSend: function() 
                 {
-                    
+                   /* Swal.fire({
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoa*/
                 },           
             success: function (res) 
             {
-                      
+               $.get(ruta_consultas+'consulta_id_seleccionados_usuarios_correos.jsp',({id_usuario:id_usuario,id_nivel:id_nivel}), function(res)
+                {
+                    
+                    //$('#'+id_combo).selectpicker('val', '');  
+                   // $('#'+id_combo).selectpicker('refresh');
+                    $('#'+id_combo).val(res.cbox_seleccionados.split(','));
+                    $('#'+id_combo).selectpicker('refresh'); 
+                                          
+                } );   
             }
+                });
+}
+    function actualizar_correos_destinatarios(id_usuario,arr_id_usuario_envio,id_nivel){
+    
+       $.ajax(  {
+                    type: "POST",
+                    url: cruds+'control_actualizar_correos_destinatario.jsp',
+                    data: ({id_usuario:id_usuario,arr_id_usuario_envio:arr_id_usuario_envio,id_nivel:id_nivel}),
+                    beforeSend: function() 
+                    {
+
+                    },           
+                    success: function (res) 
+                    {
+
+                    }
                 });
 } 
     
@@ -1813,49 +1751,195 @@ $(document).ready(function()
    
    
     function cancelar_ot(id,tipo_cancelacion,pagina) 
-    {
-        var html;
-        html = "   <form id='form_cuadro_cancelacion'>   \n\
-                         <br><textarea style='text - transform: uppercase; width: 400px; height: 80px'  required name = 'txt_motivo' id='txt_motivo' class='form - control' placeholder='INGRESE EL MOTIVO'></textarea>\n\
-                        <br><br><br><input type='submit' value='CERRAR PEDIDO' class='form-control bg-success btn color_letra' >  \n\
-                    </form> ";
-        Swal.fire({
-        title: "DESEA CERRAR EL PEDIDO NRO "+id+" ?",
-        type: 'warning',
-        html: html,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        showCancelButton: false,
-        showConfirmButton: false
-        });
-        $('#form_cuadro_cancelacion').on('submit', function (e) 
-            { 
-                e.preventDefault(); 
-                    $.ajax({
-                    type: "POST",
-                    url: cruds + "control_cerrar_ot.jsp",
-                    data: ({ id: id, tipo_cancelacion, txt_motivo: $('#txt_motivo').val()}),
-                    beforeSend: function () 
-                    {
-                        Swal.fire
-                        ({
-                            title: 'PROCESANDO!',
-                            html: 'ESPERE<strong></strong>...',
-                            allowOutsideClick: false,
-                            onBeforeOpen: () => {
-                            Swal.showLoading()
-                            timerInterval = setInterval(() => {
-                            Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft();
-                                  }, 1000);
-                              }
-                        });
-                    },
-                    success: function (data) 
-                    {
-                        aviso_aprobaciones(data.tipo_respuesta,data.mensaje,pagina);
-                    } 
-                  });                
-              e.stopPropagation();
+        {
+            var html;
+            html = "   <form id='form_cuadro_cancelacion'>   \n\
+                             <br><textarea style='text - transform: uppercase; width: 400px; height: 80px'  required name = 'txt_motivo' id='txt_motivo' class='form - control' placeholder='INGRESE EL MOTIVO'></textarea>\n\
+                            <br><br><br><input type='submit' value='CERRAR PEDIDO' class='form-control bg-success btn color_letra' >  \n\
+                        </form> ";
+            Swal.fire({
+            title: "DESEA CERRAR EL PEDIDO NRO "+id+" ?",
+            type: 'warning',
+            html: html,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showCancelButton: false,
+            showConfirmButton: false
             });
-         
-    }   
+            $('#form_cuadro_cancelacion').on('submit', function (e) 
+                { 
+                    e.preventDefault(); 
+                        $.ajax({
+                        type: "POST",
+                        url: cruds + "control_cerrar_ot.jsp",
+                        data: ({ id: id, tipo_cancelacion, txt_motivo: $('#txt_motivo').val()}),
+                        beforeSend: function () 
+                        {
+                            Swal.fire
+                            ({
+                                title: 'PROCESANDO!',
+                                html: 'ESPERE<strong></strong>...',
+                                allowOutsideClick: false,
+                                onBeforeOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft();
+                                      }, 1000);
+                                  }
+                            });
+                        },
+                        success: function (data) 
+                        {
+                            aviso_aprobaciones(data.tipo_respuesta,data.mensaje,pagina);
+                        } 
+                      });                
+                  e.stopPropagation();
+                });
+
+        }   
+    
+    
+    function cargar_estilo_calendario(){
+    
+       $('.datepicker').pickadate({
+        // Escape any “rule” characters with an exclamation mark (!).
+        format: 'dd/mm/yyyy',
+        formatSubmit: 'dd/mm/yyyy',
+        hiddenPrefix: 'prefix__',
+        hiddenSuffix: '__suffix',
+        cancel: 'Cancelar',
+        clear: 'Limpiar',
+        done: 'Ok',
+        today: 'Hoy',
+        close: 'Cerrar',
+        max: true,
+       // required:true,
+        // editable: true,
+        monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthsShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+        weekdaysShort: ['dom', 'lun', 'mar', 'mie', 'jue', 'vie', 'sab']
+      });
+            
+}
+
+    function activar_datatable_pendientes(){
+          $("#table_pendientes").DataTable(
+            { scrollY:        "500px",
+            scrollX:        true,
+                order: [[11, 'desc']],
+        rowGroup: {
+            //startRender: null,
+            startRender: function ( rows, group ) {
+            
+               return $('<tr/>')
+                    .addClass('colorCheck')
+                    .append( '<td>' + group + '</td>' )
+                    .append( '<td>(TOTAL:' +  rows.count() + ')</td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+                    .append( '<td></td>' )
+            },
+            dataSrc: 11
+        },
+        dom: 'Bfrtip',
+            "pageLength": 100,
+       
+            "language": {
+                "sSearch":         "Buscar:",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        }, 
+             //  "sUrl": "js/Spanish.txt" ,
+               buttons: {
+                copyTitle: 'DATOS COPIADOS',
+                copySuccess: {
+                    _: '%d FILAS COPIADAS' 
+                }
+            }  
+        },
+         buttons: [
+            {
+                extend: 'copyHtml5',
+                text: 'COPIAR GRILLA',
+                exportOptions: {
+                columns: [ 0, ':visible' ]
+                    }
+            },
+            {
+                extend: 'excelHtml5',
+                title:'INFORME PEDIDOS',                
+                text: 'EXCEL',
+                     
+            
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: 'INFORME PEDIDOS',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                customize: function(doc) {
+                  
+                    doc.styles.title = {
+                      color: 'white',
+                      fontSize: '20',
+                      background: 'black',
+                      alignment: 'center'
+                      
+                    }
+                    doc.styles.tableHeader = {
+                       fontSize: '6'
+                    }
+                    doc.styles.tableBodyEven = {
+                      fontSize: '6'
+                    }
+                    doc.styles.tableBodyOdd = {
+                       fontSize: '6'
+                    }
+                   doc.styles.tableFooter = {
+                       fontSize: '6'
+                    }
+                   doc.styles['td:nth-child(2)'] = { 
+                      width: '100px',
+                      'max-width': '100px'
+                    }
+                  }   ,
+                exportOptions: {
+                    columns: ':visible'
+                 }
+            },
+            'colvis'
+        ], keys: {
+        clipboard: false
+        }});
+     }
+     
+    function seleccionar_usuarios_correos(id_usuario,id_nivel,id_combo)
+    {
+       actualizar_nivel_usuario(id_usuario,id_nivel,'1',id_combo); 
+        
+    }

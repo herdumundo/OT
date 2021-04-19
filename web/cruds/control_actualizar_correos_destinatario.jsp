@@ -19,22 +19,20 @@
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
-    String id_usuario   = (String) sesionOk.getAttribute("id_usuario");
-    String id_pedido    = request.getParameter("id_pedido");
-    String notas        = request.getParameter("notas");
-    String id_nivel             = (String) sesionOk.getAttribute("id_nivel");
-        
+    String id_usuario       = request.getParameter("id_usuario");
+    String arr_id_usuario_envio            = request.getParameter("arr_id_usuario_envio");
+    String id_nivel            = request.getParameter("id_nivel");
+  
     String mensaje="";
     int tipo_respuesta=0;    try 
     {
         cn.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-                callableStatement = cn.prepareCall("{call [mae_ot_aprobar_ja](?,?,?,?,?,?)}");
-                callableStatement .setInt(1,    Integer.parseInt(id_usuario) );
-                callableStatement .setInt(2,    Integer.parseInt(id_pedido) );
-                callableStatement .setInt(3,    Integer.parseInt(id_nivel) );
-                callableStatement .setString(4, notas);
-                
+                callableStatement = cn.prepareCall("{call  mae_ot_update_correos_destinatarios (?,?,?,?,?)}");
+                callableStatement .setInt(1,  Integer.parseInt(id_usuario) );
+                callableStatement .setInt(2,  Integer.parseInt(id_nivel) );
+                callableStatement .setString(3,   arr_id_usuario_envio   );
+                 
                 callableStatement.registerOutParameter("estado_registro", java.sql.Types.INTEGER);
                 callableStatement.registerOutParameter("mensaje", java.sql.Types.VARCHAR);
                 callableStatement.execute(); 
@@ -46,8 +44,8 @@
                 }   
                 else  
                 {
-                     //cn.rollback(); 
-                    cn.commit();
+                    //  cn.rollback(); 
+                   cn.commit();
                 }    
                 ob.put("mensaje", mensaje);
                 ob.put("tipo_respuesta", tipo_respuesta);

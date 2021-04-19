@@ -1,5 +1,4 @@
- package consultas_java;
-
+package consultas_java;
 import clases.bdconexion1;
 import clases.fuentedato;
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
@@ -10,19 +9,20 @@ import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-public class modelos  {  
-public static   bdconexion1 conexion = new bdconexion1();
-public static   fuentedato fuente = new fuentedato();
-           
+public class modelos  
+{  
+    public static   bdconexion1 conexion = new bdconexion1();
+    public static   fuentedato fuente = new fuentedato();
     public static String combo=""; 
     public static String combo_roles=""; 
     public static String combo_areas=""; 
+    public static String combo_correos=""; 
     public static String combo_opciones=""; 
  
-    public static void cargar_niveles()
-        { try 
+    public static String cargar_niveles()
+    { try 
             {
-            
+                combo="";
                 Connection cn = conexion.crearConexion();
                 fuente.setConexion(cn);
                 ResultSet rs = fuente.obtenerDato("select * from mae_ot_niveles");
@@ -32,13 +32,15 @@ public static   fuentedato fuente = new fuentedato();
                 }         
                 rs.close();
                 cn.close();
+                return combo;
              } catch (Exception e) 
             {
                 String as=e.toString();
             } 
+    return combo;
         }
-     public static void cargar_opciones()
-        { try 
+    public static String cargar_opciones()
+    { try 
             {
                 combo_opciones="";
                 Connection cn = conexion.crearConexion();
@@ -50,13 +52,15 @@ public static   fuentedato fuente = new fuentedato();
                 }         
                 rs.close();
                 cn.close();
+                return combo_opciones;
              } catch (Exception e) 
             {
                 String as=e.toString();
             } 
+    return null;
         }
-    public static void cargar_roles()
-        { try 
+    public static String cargar_roles()
+    { try 
             {   combo_roles="";
                 Connection cn = conexion.crearConexion();
                 fuente.setConexion(cn);
@@ -67,13 +71,15 @@ public static   fuentedato fuente = new fuentedato();
                 }         
                 rs.close();
                 cn.close();
+                return combo_roles;
              } catch (Exception e) 
             {
                 String as=e.toString();
             } 
+    return combo_roles;
         }        
-    public static void cargar_areas()
-        { try 
+    public static String cargar_areas()
+    { try 
             {combo_areas="";
                 Connection cn = conexion.crearConexion();
                 fuente.setConexion(cn);
@@ -86,19 +92,34 @@ public static   fuentedato fuente = new fuentedato();
                 }         
                 rs.close();
                 cn.close();
-               
+               return combo_areas;
             } catch (Exception e) 
             {
                 String as=e.toString();
             } 
-        }        
-    
- 
-    
-   
-    
-    
-  
-}
+    return null;
+        }   
+
+   public static String cargar_usuarios_correos()
+    { try 
+            {combo_correos="";
+                Connection cn = conexion.crearConexion();
+                fuente.setConexion(cn);
+                ResultSet rs = fuente.obtenerDato("select * from  v_mae_ot_usuarios where correo <> ''");
+                while (rs.next()) 
+                {
+               combo_correos=combo_correos+  "<option value='"+rs.getString("id_usuario")+"'>"+rs.getString("nombre")+"</option>";                    
+                    
+                }         
+                rs.close();
+                cn.close();
+               return combo_correos;
+            } catch (Exception e) 
+            {
+                String as=e.toString();
+            } 
+    return null;
+        }    
+ }
 
  
