@@ -22,13 +22,11 @@
     ob=new JSONObject();
     
     ResultSet rs,rs2;
-     rs2 = fuente.obtenerDato(" select distinct a.codigo,a.descripcion from mae_ot_maquinas a "
-             + "                inner join mae_ot_det_submaq b on a.codigo=b.id_maquina  "
-             + "                inner join mae_ot_subcategorias c on b.id_subcategoria=b.id_subcategoria "
-             + "                where b.id_area='"+id_area+"'");
+     rs2 = fuente.obtenerDato(" select * from mae_ot_maquinas"
+             + "                where  id_area='"+id_area+"' and id_estado=7");
        while(rs2.next())
         {
-            html=html+"<OPTION  VALUE='"+ rs2.getString(1)+"'>"+ rs2.getString(2)+"</OPTION>";
+            html=html+"<OPTION  VALUE='"+ rs2.getString(3)+"'>"+ rs2.getString(2)+"</OPTION>";
         }
         ob.put("cbox_maquina","<OPTION value='' disabled selected='selected'>SELECCIONE MAQUINA</OPTION>"+html);
         out.print(ob);  %>

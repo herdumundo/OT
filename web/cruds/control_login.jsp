@@ -34,7 +34,7 @@
         modelos.cargar_usuarios_correos();
         modelos.cargar_opciones();//llena lista de niveles.
         modelos.cargar_roles();//llena lista de niveles.
-        sesionOk.setAttribute("combo_nivel",modelos.combo);
+        sesionOk.setAttribute("combo_nivel",modelos.combo_niveles);
         sesionOk.setAttribute("combo_areas",modelos.cargar_areas());
         sesionOk.setAttribute("combo_opciones",modelos.combo_opciones);
         sesionOk.setAttribute("combo_roles",modelos.combo_roles);

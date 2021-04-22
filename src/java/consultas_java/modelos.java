@@ -13,7 +13,7 @@ public class modelos
 {  
     public static   bdconexion1 conexion = new bdconexion1();
     public static   fuentedato fuente = new fuentedato();
-    public static String combo=""; 
+    public static String combo_niveles=""; 
     public static String combo_roles=""; 
     public static String combo_areas=""; 
     public static String combo_correos=""; 
@@ -22,22 +22,22 @@ public class modelos
     public static String cargar_niveles()
     { try 
             {
-                combo="";
+                combo_niveles="";
                 Connection cn = conexion.crearConexion();
                 fuente.setConexion(cn);
                 ResultSet rs = fuente.obtenerDato("select * from mae_ot_niveles");
                  while (rs.next()) 
                 {
-                    combo=combo+  "<option value='"+rs.getString("id")+"'>"+rs.getString("descripcion")+"</option>";                    
+                    combo_niveles=combo_niveles+  "<option value='"+rs.getString("id")+"'>"+rs.getString("descripcion")+"</option>";                    
                 }         
                 rs.close();
                 cn.close();
-                return combo;
+                return combo_niveles;
              } catch (Exception e) 
             {
                 String as=e.toString();
             } 
-    return combo;
+    return combo_niveles;
         }
     public static String cargar_opciones()
     { try 
@@ -64,7 +64,7 @@ public class modelos
             {   combo_roles="";
                 Connection cn = conexion.crearConexion();
                 fuente.setConexion(cn);
-                ResultSet rs = fuente.obtenerDato("select * from mae_ot_roles");
+                ResultSet rs = fuente.obtenerDato("select * from mae_ot_roles where id_estado=7");
                 while (rs.next()) 
                 {
                     combo_roles=combo_roles+"<option value='"+rs.getString("id")+"'>"+rs.getString("descripcion")+"</option>";                    
@@ -105,7 +105,7 @@ public class modelos
             {combo_correos="";
                 Connection cn = conexion.crearConexion();
                 fuente.setConexion(cn);
-                ResultSet rs = fuente.obtenerDato("select * from  v_mae_ot_usuarios where correo <> ''");
+                ResultSet rs = fuente.obtenerDato("select * from  v_mae_ot_usuarios where correo <> '' and id_estado=7");
                 while (rs.next()) 
                 {
                combo_correos=combo_correos+  "<option value='"+rs.getString("id_usuario")+"'>"+rs.getString("nombre")+"</option>";                    

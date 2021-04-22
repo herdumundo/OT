@@ -20,20 +20,19 @@
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
-    String area       = request.getParameter("area");
-    String tipo       = request.getParameter("tipo");
-   
+    String id_maquina       = request.getParameter("cbox_maquina");
+    String subcategorias    = request.getParameter("id_vinculaciones_subcat");
+    
     String mensaje="";
     int tipo_respuesta=0;    
     try 
     {
         cn.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-        callableStatement = cn.prepareCall("{call [mae_ot_insert_area](?,?,?,?)}");
-        callableStatement .setString(1,   area );
-        callableStatement .setInt(2,  Integer.parseInt(tipo));
- 
-        callableStatement.registerOutParameter("estado_registro", java.sql.Types.INTEGER);
+        callableStatement = cn.prepareCall("{call [mae_ot_vincu_subcategorias](?,?,?,? )}");
+        callableStatement .setInt(1,  Integer.parseInt(id_maquina)  );
+        callableStatement .setString(2,   subcategorias );
+          callableStatement.registerOutParameter("estado_registro", java.sql.Types.INTEGER);
         callableStatement.registerOutParameter("mensaje", java.sql.Types.VARCHAR);
         callableStatement.execute(); 
         tipo_respuesta = callableStatement.getInt("estado_registro");
@@ -46,8 +45,6 @@
         {
             //cn.rollback(); 
             cn.commit();
-            modelos.cargar_areas();
-           // sesionOk.setAttribute("combo_areas",modelos.combo_areas);
         }    
             ob.put("mensaje", mensaje);
             ob.put("tipo_respuesta", tipo_respuesta);

@@ -6,6 +6,8 @@ $(document).ready(function()
 {
     no_volver_atras();
     traer_menu();
+        
+          
 });
    
     function no_volver_atras(){
@@ -104,8 +106,17 @@ $(document).ready(function()
             success: function (res) 
             {
                 $("#contenido_row").html(res);
+                $("#modalx-flipOut_wrapper").remove();
+                $("#modal_submaq_background").remove();
+                $("#modalx-flipOut_background").remove();
+                $("#modal_submaq_wrapper").remove();
+                $("#modal_vinculacion_background").remove();
+                $("#modal_vinculacion_background").remove();
+                $("#modal_vinculacion_wrapper").remove();
+                
                 $('#contenido_row').show();
              onclickMenu();
+             
             }
                 });  
     }
@@ -174,12 +185,54 @@ $(document).ready(function()
           
         }
                 });      
-     }     
-    function ir_creacion_operarios()
+     } 
+     
+     
+    function ir_creacion_usuarios()
+    {
+         
+        $.ajax({
+        type: "POST",
+        url: ruta_contenedores+'contenedor_crear_usuario.jsp',
+        beforeSend: function() 
+        {
+            $('#div_cargar_menu').show();
+            $('#contenido_row').html('');
+        },           
+        success: function (res) 
+        {
+            $('#contenido').html(res);
+            $("#div_areas").css('background-color','LemonChiffon');  
+            cargar_usuario_combo();
+         
+                 
+
+            ir_grilla_usuarios();
+             $('#form_add_user').on('submit', function(event)
+            {    
+                event.preventDefault();
+                registrar_usuario();
+                event.stopPropagation();
+            }); 
+            
+               $('#form_upd_user').on('submit', function(event)
+            {    
+                event.preventDefault();
+                actualizar_usuario();
+                event.stopPropagation();
+            }); 
+            
+       
+          
+        }
+                });      
+     }    
+     
+    function ir_creacion_maquinas()
     {
         $.ajax({
         type: "POST",
-        url: ruta_contenedores+'contenedor_crear_operarios.jsp',
+        url: ruta_contenedores+'contenedor_crear_maquinas_sub.jsp',
         beforeSend: function() 
         {
             $('#div_cargar_menu').show();
@@ -189,23 +242,47 @@ $(document).ready(function()
         {
             $('#contenido').html(res);
             
-            ir_grilla_operarios();
-             $('#form_add_operario').on('submit', function(event)
+            $('#modalx-flipOut').popup({
+                pagecontainer: '.container',
+                transition: 'all 0.3s',
+                color: '#000'
+            }); 
+                    
+            $('#modal_submaq').popup({
+                pagecontainer: '.container',
+                transition: 'all 0.3s',
+                color: '#000'
+		    });
+            $('#modal_vinculacion').popup({
+                pagecontainer: '.container',
+                transition: 'all 0.3s',
+                color: '#000'
+		    })
+            $('#select_areas').selectpicker();  
+            
+                
+            $('#form_add_maquina').on('submit', function(event)
             {    
                 event.preventDefault();
-                registrar_operario();
+                registrar_maquina();
+                event.stopPropagation();
+            }); 
+              $('#form_add_subcat').on('submit', function(event)
+            {    
+                event.preventDefault();
+                registrar_subcategoria();
+                event.stopPropagation();
+            });  
+               $('#form_add_vinculacion').on('submit', function(event)
+            {    
+                event.preventDefault();
+                registrar_vinculacion_subcategorias();
                 event.stopPropagation();
             }); 
             
-               $('#form_upd_operario').on('submit', function(event)
-            {    
-                event.preventDefault();
-                actualizar_operario();
-                event.stopPropagation();
-            }); 
-            
-          
+            ir_grilla_maquina_subcategoria();
         }
+        
                 });      
      }   
      
@@ -564,6 +641,15 @@ $(document).ready(function()
             $("#id_categoria").html(res.cbox_subcat);
         });
     } 
+     function cargar_subcat()
+    {
+        $.get(ruta_consultas+'consulta_subcat.jsp',{id_maquina:'VINCULACION'},function(res)
+        {
+            $("#select_submaq_vinc").html('');
+            $("#select_submaq_vinc").html(res.cbox_subcat);
+            $('#select_submaq_vinc').selectpicker();  
+        });
+    } 
     function ir_grilla_areas()
     {
         $.get(ruta_grillas+'grilla_areas.jsp', function(res)
@@ -572,7 +658,33 @@ $(document).ready(function()
             $('#table_areas').DataTable();
         });
     } 
-        function ir_grilla_roles()
+    
+     function ir_grilla_maquinas()
+    {
+        $.get(ruta_grillas+'grilla_maquinas.jsp', function(res)
+        {
+            $("#div_grilla_maquina").html(res);
+            $('#table_maquinas').DataTable();
+        });
+    }
+    
+     function ir_grilla_subcategoria()
+    {
+        $.get(ruta_grillas+'grilla_subcategoria.jsp', function(res)
+        {
+            $("#div_grilla_subcat").html(res);
+            $('#table_subcat').DataTable();
+        });
+    }
+    
+   function ir_grilla_maquina_subcategoria()
+    {
+        $.get(ruta_grillas+'grilla_maquinas_subcategorias.jsp', function(res)
+        {
+            $("#grilla_maquinas_subcategorias").html(res);
+            $('#table_maquina_subcategoria').DataTable();
+        });
+    }        function ir_grilla_roles()
     {
         $.get(ruta_grillas+'grilla_roles.jsp', function(res)
         {
@@ -664,7 +776,341 @@ $(document).ready(function()
     }); 
    }
  
+  function registrar_maquina(){
+      $('#ids_areas').val($('#select_areas').val());
+       
+         Swal.fire({
+           target: document.getElementById('modalx-flipOut') ,       
+            title: 'CONFIRMACION',
+        text: "DESEA CREAR LA MAQUINA?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, CREAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_crear_maquina.jsp',
+                data: $("#form_add_maquina").serialize(),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                         target: document.getElementById('modalx-flipOut'),
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                 aviso_registro_maquina_sub(res.tipo_respuesta,res.mensaje,'modalx-flipOut',"1")  ;          
+            }
+                });
+            }
+    });  
+   }
+   
+   function registrar_subcategoria(){
+        
+         Swal.fire({
+        target: document.getElementById('modal_submaq') ,       
+        title: 'CONFIRMACION',
+        text: "DESEA CREAR LA SUBCATEGORIA?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, CREAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_crear_subcategoria.jsp',
+                data: $("#form_add_subcat").serialize(),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                         target: document.getElementById('modal_submaq'),
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                 aviso_registro_maquina_sub(res.tipo_respuesta,res.mensaje,'modal_submaq',"2")  ;          
+            }
+                });
+            }
+    });  
+   }
+   
+
+
+  function registrar_vinculacion_subcategorias(){
+        $('#id_vinculaciones_subcat').val($('#select_submaq_vinc').val()) ;
+
+        Swal.fire({
+        target: document.getElementById('modal_vinculacion') ,       
+        title: 'CONFIRMACION',
+        text: "DESEA CREAR LA VINCULACION?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, CREAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_vincular_subcat_maquinas.jsp',
+                data: $("#form_add_vinculacion").serialize(),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    target: document.getElementById('modal_vinculacion'),
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                 aviso_registro_maquina_sub(res.tipo_respuesta,res.mensaje,'modal_vinculacion',"3")  ;           
+            }
+                });
+            }
+    });  
+   }
+   
+   
+   
+ function eliminar_maquina(id){
+        
+         Swal.fire({
+           target: document.getElementById('modalx-flipOut') ,       
+            title: 'CONFIRMACION',
+        text: "DESEA ELIMINAR LA MAQUINA?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, ELIMINAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_eliminar_maquinas.jsp',
+                data: ({id:id}),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    target: document.getElementById('modalx-flipOut'),
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                
+                aviso_registro_maquina_sub(res.tipo_respuesta,res.mensaje,'modalx-flipOut',"2")  ;          
+                var table = $('#table_maquinas').DataTable();
+                table.row('#'+id).remove().draw( false );
+            }
+                });
+               
+                
+            }
+    });  
+   }
+ function editar_maquinas_submaq(id,descripcion,modal,procedure,condicion){
+        var html="<form id='form_editar' action='POST'>\n\
+                    <input type='hidden'     name='txt_edit_id' id='txt_edit_id' value='"+id+"'> \n\
+                    <input type='hidden'     name='modal_id' id='modal_id' value='"+modal+"'> \n\
+                    <input type='hidden'     name='procedure' id='procedure' value='"+procedure+"'> \n\
+                    <input type='hidden'     name='condicion' id='condicion' value='"+condicion+"'> \n\
+                    <input type='text'  required  name='txt_edit_descripcion' id='txt_edit_descripcion' value='"+descripcion+"'> \n\
+                  <br><br><input type='submit' class='form-control btn btn-success envio'    value='EDITAR' > \n\
+                  </form>";
+        
+      Swal.fire({
+            target: document.getElementById(modal),
+            title: 'EDITAR DATOS',
+            html: html,
+            type: 'warning',
+             confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showCancelButton: false,
+            showConfirmButton: false
+                    });
+            $(document).on('click','.envio',function(){
+            $('#form_editar').submit(function(evt){
+                
+                evt.preventDefault();
+               var mod= $('#modal_id').val();// to stop form submitting
+               var cond=$('#condicion').val();;// to stop form submitting
+                $.ajax({
+                type: "POST",
+                url: cruds+"control_actualizar_maquina_subcat.jsp",
+                data: $("#form_editar").serialize() ,
+                beforeSend: function() {
+                Swal.fire({
+                target: document.getElementById(modal),
+                title: 'PROCESANDO!',
+                html: '<strong>ESPERE</strong>...',
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                        Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                    }, 1000); }
+                        }); 
+                     },           
+                success: function (res) 
+                {
+                    aviso_registro_maquina_sub(res.tipo_respuesta,res.mensaje,mod,cond)  ;                 
+                
+                } 
+                        }); 
+              evt.stoppropagation();
+            });
+        }); 
+   }
+   
  
+function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
+       if(tipo=="1"){
+        swal.fire({
+            target: document.getElementById(modal),
+                type: 'success',
+                text:mensaje,
+                confirmButtonText: "CERRAR"
+                });
+             if(condicion=="1"){
+                ir_grilla_maquinas();
+                $('#ids_areas').val("");
+                $('#maquina').val("");
+                $('#select_areas').selectpicker('val', '');
+
+             }   
+            else if(condicion=="2"){
+                ir_grilla_subcategoria();
+                $('#subcat').val("");              
+             } 
+            else if(condicion=="3"){
+                ir_grilla_maquina_subcategoria();
+                $('#cbox_origen').prop('selectedIndex',0);
+                $('#cbox_maquina').html('');
+                $('#select_submaq_vinc').selectpicker('val', '');
+             }
+            else if(condicion=="4"){
+          
+             }
+            else if(condicion=="5"){
+                ir_grilla_maquinas();
+             }
+            else if(condicion=="6"){
+                ir_grilla_subcategoria();
+             }
+       }
+     
+       else {
+          
+           swal.fire({
+                target: document.getElementById(modal),
+                type: 'error',
+                html:mensaje,
+                confirmButtonText: "CERRAR"
+                });  
+       }
+        
+   }
+   
+   
+   
+   function eliminar_subcategoria(id){
+        
+        Swal.fire({
+        target: document.getElementById('modal_submaq') ,       
+        title: 'CONFIRMACION',
+        text: "DESEA ELIMINAR LA SUBCATEGORIA?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI, ELIMINAR!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_eliminar_subcategorias.jsp',
+                data: ({id:id}),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    target: document.getElementById('modal_submaq'),
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                
+                aviso_registro_maquina_sub(res.tipo_respuesta,res.mensaje,'modal_submaq',"3")  ;          
+                var table = $('#table_subcat').DataTable();
+                table.row('#'+id).remove().draw( false );
+            }
+                });
+               
+                
+            }
+    });  
+   }
     function registrar_proveedor(){
         Swal.fire({
         title: 'CONFIRMACION',
@@ -871,6 +1317,52 @@ $(document).ready(function()
             }   
     }); 
    }
+   function eliminar_vinculacion_subcategoria(id){
+       
+        Swal.fire({
+        target: document.getElementById('modal_vinculacion') ,       
+        title: 'CONFIRMACION',
+        text: "DESEA ELIMINAR LA VINCULACION?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'SI!',
+        cancelButtonText: 'NO, CANCELAR!' }).then((result) => 
+        {
+            if (result.value) 
+            {
+                $.ajax({
+                type: "POST",
+                url: cruds+'control_eliminar_vinculacion_subcategorias.jsp',
+                data: ({id:id }),
+                beforeSend: function() 
+                {
+                    Swal.fire({
+                    target: document.getElementById('modal_vinculacion') ,   
+                    title: 'PROCESANDO!',
+                    html: 'ESPERE<strong></strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft()
+                        }, 1000);
+                    } 
+                    });
+                },           
+            success: function (res) 
+            {
+                aviso_registro_maquina_sub(res.tipo_respuesta,res.mensaje,'modal_vinculacion',"4")  ;           
+                var table = $('#table_maquina_subcategoria').DataTable();
+                table.row('#'+id).remove().draw( false );
+            }
+                });
+               
+                
+            }
+    }); 
+   }
    
     function eliminar_area_rol(id,tipo,modal){
         Swal.fire({
@@ -1032,6 +1524,26 @@ $(document).ready(function()
                 });
 } 
     
+    function actualizar_areas_usuario(id_usuario,id_area){
+        
+        $('#txt_areas_asignadas').val($('#area'+id_area).val()) ;
+        
+        
+        $.ajax(  {
+                    type: "POST",
+                    url: cruds+'control_actualizar_usuario_areas.jsp',
+                    data: ({id_usuario:id_usuario,areas: $('#txt_areas_asignadas').val()}),
+                    beforeSend: function() 
+                    {
+
+                    },           
+                    success: function (res) 
+                    {
+
+                    }
+                });
+        
+    }
     function actualizar_opciones_roles(){
       $('#contenido_multiple_opciones').val($('#select_opciones').val());
         Swal.fire({

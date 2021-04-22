@@ -37,9 +37,8 @@
     <link href="estilos/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <link href="estilos/css/jquery-ui.multidatespicker.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css"/>
-     
-    
-</head>
+    <link href="estilos/css/modal.css" rel="stylesheet" type="text/css"/>
+ </head>
 
 <body id="page-top">
 
@@ -225,7 +224,8 @@
     <script src="js/multi_select.js" type="text/javascript"></script>
     <script src="estilos/js/jquery-ui.min.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js" type="text/javascript"></script>
-   
+    <script src="js/modal.js" type="text/javascript"></script>
+     
     </body>
  <footer class="sticky-footer bg-gradient-light  ">
         <div class="container my-auto">
@@ -234,4 +234,7 @@
           </div>
         </div>
     </footer>
+    
+    
+     
 </html>

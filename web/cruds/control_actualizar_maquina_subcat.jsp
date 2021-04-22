@@ -19,27 +19,19 @@
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
-    String id           = request.getParameter("txt_id_usuario");
-    String nombre     = request.getParameter("txt_nombre");
-    String apellido     = request.getParameter("txt_apellido");
-    String txt_usuario      = request.getParameter("txt_usuario");
-    String txt_correo         = request.getParameter("txt_correo");
-     
+    String id           = request.getParameter("txt_edit_id");
+    String descripcion  = request.getParameter("txt_edit_descripcion");
+    String procedure  = request.getParameter("procedure");
+   
     String mensaje="";
-    String areas="";
-    int tipo_respuesta=0;    
-    try 
-    { 
+    int tipo_respuesta=0;    try 
+    {
         cn.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-                callableStatement = cn.prepareCall("{call [mae_ot_update_usuarios](?,?,?,?,?,?,?)}");
+                callableStatement = cn.prepareCall("{call  "+procedure+" (?,?,?,? )}");
                 callableStatement .setInt(1,    Integer.parseInt(id) );
-                callableStatement .setString(2,   nombre);
-                callableStatement .setString(3,   apellido);
-                callableStatement .setString(4,  txt_usuario);
-                callableStatement .setString(5, txt_correo);
-               
-        
+                callableStatement .setString(2, descripcion );
+                  
                 callableStatement.registerOutParameter("estado_registro", java.sql.Types.INTEGER);
                 callableStatement.registerOutParameter("mensaje", java.sql.Types.VARCHAR);
                 callableStatement.execute(); 
@@ -51,9 +43,8 @@
                 }   
                 else  
                 {
-                     //cn.rollback(); 
+                    // cn.rollback(); 
                     cn.commit();
-                    consultas_java.modelos.cargar_usuarios_correos();
                 }    
                 ob.put("mensaje", mensaje);
                 ob.put("tipo_respuesta", tipo_respuesta);

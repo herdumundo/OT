@@ -13,8 +13,8 @@
     Connection cn = conexion.crearConexion();
     fuente.setConexion(cn);
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
-    String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
-    String combo_areas = (String) sesionOk.getAttribute("combo_areas"); 
+   // String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
+    //String combo_areas = (String) sesionOk.getAttribute("combo_areas"); 
     ResultSet rs,rs2,rs3;
     rs = fuente.obtenerDato("select * from v_mae_ot_usuarios");
     int id=1;
@@ -44,13 +44,13 @@
                 <td><%=rs.getString("nombre")%></td>
                 <td><%=rs.getString("usuario")%></td>
                 <td><%=rs.getString("correo")%></td>
-                <td><select id="nivel<%=id%>"           class="form-control"    onchange="seleccionar_usuarios_correos('<%=rs.getString("id_usuario")%>',$('#nivel'+<%=id%>).val(),'select_correo<%=id%>');  "   >  <%=combo_nivel%></select></td>
+                <td><select id="nivel<%=id%>"           class="form-control"    onchange="seleccionar_usuarios_correos('<%=rs.getString("id_usuario")%>',$('#nivel'+<%=id%>).val(),'select_correo<%=id%>');  "   >  <%=consultas_java.modelos.combo_niveles%></select></td>
                 
                 <td><select id="rol<%=id%>"             class="form-control"    onchange="actualizar_nivel_usuario('<%=rs.getString("id_usuario")%>',$('#rol'+<%=id%>).val(),'2');"     > <%=consultas_java.modelos.combo_roles%></select></td>
                 
-                <td><select id="area<%=id%>"            class="form-control"    onchange=" $('#txt_areas_asignadas').val($('#area'+<%=id%>).val()) ;actualizar_areas_usuario($('#txt_areas_asignadas').val(),'<%=rs.getString("id_usuario")%>');" name="select_areas" required  multiple  data-live-search="true"> <%=combo_areas%></select></td>
+                <td><select id="area<%=id%>"            class="form-control"    onchange=" actualizar_areas_usuario('<%=rs.getString("id_usuario")%>','<%=id%>');" name="select_areas" required  multiple  data-live-search="true"> <%=consultas_java.modelos.combo_areas%></select></td>
                 
-                <td><select id="estado<%=id%>"          class="form-control"    onchange="actualizar_areas_usuario('<%=rs.getString("id_usuario")%>',$('#estado'+<%=id%>).val(),'3');"  > <option value="7">ACTIVO</option><option value="8">INACTIVO</option></select></td>
+                <td><select id="estado<%=id%>"          class="form-control"    onchange="actualizar_nivel_usuario('<%=rs.getString("id_usuario")%>',$('#estado'+<%=id%>).val(),'3');"  > <option value="7">ACTIVO</option><option value="8">INACTIVO</option></select></td>
                 
                 <td><select id="select_correo<%=id%>"   class="form-control"    onchange ="$('#txt_usuarios_correos_destinatarios').val($('#select_correo'+<%=id%>).val()); actualizar_correos_destinatarios('<%=rs.getString("id_usuario")%>',$('#txt_usuarios_correos_destinatarios').val(),$('#nivel'+<%=id%>).val());"    title="SIN DESTINATARIO"  multiple  data-live-search="true"> <%=consultas_java.modelos.combo_correos%></select></td>
                 
