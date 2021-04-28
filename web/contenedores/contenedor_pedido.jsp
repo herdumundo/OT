@@ -66,7 +66,7 @@
                 <label class="form-control-placeholder"><b>TIPO DE PROBLEMA</b></label>
                 <select class="form-control" name="cbox_tipo_problem" id="cbox_tipo_problem" required>
                 <OPTION value="" disabled selected="selected">SELECCIONE TIPO DE PROBLEMA</OPTION>
-                    <%rs = fuente.obtenerDato("select * from mae_ot_tipo_problema");
+                    <%rs = fuente.obtenerDato("select * from mae_ot_tipo_problema where id_estado=7");
                     while(rs.next())
                     {
                     %> <OPTION value="<%=rs.getString(1)%>"><%=rs.getString(2)%></OPTION>  <%}%>

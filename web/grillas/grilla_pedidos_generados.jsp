@@ -28,6 +28,7 @@
       <th >Fecha registro</th>   
       <th >Tercerizado</th>   
       <th >Tipo de pedido</th>   
+      <th >Notas</th>   
       <th >Estado del pedido</th>   
      </thead>
     <tbody>
@@ -43,6 +44,7 @@
             <td><%=rs.getString("fecha_registro")%></td>  
             <td><%=rs.getString("tercerizado")%></td>
             <td><%=rs.getString("tipo_pedido")%></td>
+            <td><textarea readonly  style="width:500px; height:75px" class="form - control"  > <%=rs.getString("notas_unificadas")%></textarea> </td> 
             <td><%=rs.getString("estado_pedido")%></td>
         </tr>
         <%}%>

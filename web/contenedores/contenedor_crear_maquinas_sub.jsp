@@ -88,7 +88,7 @@
                                     <%out.println(modelos.cargar_areas());%>                            
                             </select>
                             <a>MAQUINAS</a>
-                            <select class="form-control  " title="SELECCIONE MAQUINA" id="cbox_maquina" data-style="btn-dark" name="cbox_maquina" required  data-live-search="true"  >
+                            <select class="form-control  " title="SELECCIONE MAQUINA" id="cbox_maquina" data-style="btn-dark" name="cbox_maquina" required  data-live-search="true" onchange="ir_grilla_maquina_subcategoria($('#cbox_maquina').val())"  >
                             
                             </select>
                             

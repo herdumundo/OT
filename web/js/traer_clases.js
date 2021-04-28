@@ -280,13 +280,31 @@ $(document).ready(function()
                 event.stopPropagation();
             }); 
             
-            ir_grilla_maquina_subcategoria();
+          //  ir_grilla_maquina_subcategoria();
         }
         
                 });      
      }   
      
-     
+  function ir_creacion_tipos_problemas()
+    {
+        $.ajax({
+        type: "POST",
+        url: ruta_contenedores+'contenedor_crear_tipos_problemas.jsp',
+        beforeSend: function() 
+        {
+            $('#div_cargar_menu').show();
+            $('#contenido_row').html('');
+        },           
+        success: function (res) 
+        {
+            $('#contenido').html(res);
+            
+            listar_grilla_tipo_problema();
+        }
+        
+                });      
+     }     
     function ir_creacion_proveedores()
     {
         $.ajax({
@@ -677,14 +695,25 @@ $(document).ready(function()
         });
     }
     
-   function ir_grilla_maquina_subcategoria()
+   function ir_grilla_maquina_subcategoria(id_maquina)
     {
-        $.get(ruta_grillas+'grilla_maquinas_subcategorias.jsp', function(res)
+        $.get(ruta_grillas+'grilla_maquinas_subcategorias.jsp',({id_maquina:id_maquina}) ,function(res)
         {
             $("#grilla_maquinas_subcategorias").html(res);
             $('#table_maquina_subcategoria').DataTable();
         });
-    }        function ir_grilla_roles()
+    } 
+    
+    function listar_grilla_tipo_problema()
+    {
+        $.get(ruta_grillas+'grilla_tipos_problemas.jsp', function(res)
+        {
+            $("#grilla").html(res);
+            $('#table_tipo_problema').DataTable();
+        });
+    } 
+    
+    function ir_grilla_roles()
     {
         $.get(ruta_grillas+'grilla_roles.jsp', function(res)
         {
@@ -958,7 +987,7 @@ $(document).ready(function()
             }
     });  
    }
- function editar_maquinas_submaq(id,descripcion,modal,procedure,condicion){
+    function editar_maquinas_submaq(id,descripcion,modal,procedure,condicion){
         var html="<form id='form_editar' action='POST'>\n\
                     <input type='hidden'     name='txt_edit_id' id='txt_edit_id' value='"+id+"'> \n\
                     <input type='hidden'     name='modal_id' id='modal_id' value='"+modal+"'> \n\
@@ -978,7 +1007,7 @@ $(document).ready(function()
             showCancelButton: false,
             showConfirmButton: false
                     });
-            $(document).on('click','.envio',function(){
+          //  $(document).on('click','.envio',function(){
             $('#form_editar').submit(function(evt){
                 
                 evt.preventDefault();
@@ -1010,11 +1039,11 @@ $(document).ready(function()
                         }); 
               evt.stoppropagation();
             });
-        }); 
+        //}); 
    }
    
  
-function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
+    function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
        if(tipo=="1"){
         swal.fire({
             target: document.getElementById(modal),
@@ -1034,9 +1063,9 @@ function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
                 $('#subcat').val("");              
              } 
             else if(condicion=="3"){
-                ir_grilla_maquina_subcategoria();
-                $('#cbox_origen').prop('selectedIndex',0);
-                $('#cbox_maquina').html('');
+                ir_grilla_maquina_subcategoria($('#cbox_maquina').val());
+              //  $('#cbox_origen').prop('selectedIndex',0);
+               // $('#cbox_maquina').html('');
                 $('#select_submaq_vinc').selectpicker('val', '');
              }
             else if(condicion=="4"){
@@ -1063,8 +1092,104 @@ function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
    }
    
    
-   
-   function eliminar_subcategoria(id){
+   function editar_tipo_problema(id,descripcion){
+        var html="<form id='form_editar' action='POST'>\n\
+                    <input type='hidden'     name='txt_edit_id' id='txt_edit_id' value='"+id+"'> \n\
+                    <input type='text'  required  name='txt_edit_descripcion' id='txt_edit_descripcion' value='"+descripcion+"'> \n\
+                  <br><br><input type='submit' class='form-control btn btn-success envio'    value='EDITAR' > \n\
+                  </form>";
+        
+      Swal.fire({
+            title: 'EDITAR DATOS',
+            html: html,
+            type: 'warning',
+             confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showCancelButton: false,
+            showConfirmButton: false
+                    });
+           // $(document).on('click','.envio',function(){
+            $('#form_editar').submit(function(evt){
+                
+                evt.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: cruds+"control_actualizar_tipo_problema.jsp",
+                    data: $("#form_editar").serialize() ,
+                    beforeSend: function() {
+                    Swal.fire({
+                    title: 'PROCESANDO!',
+                    html: '<strong>ESPERE</strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            Swal.getContent().querySelector('strong')
+                                .textContent = Swal.getTimerLeft()
+                        }, 1000); }
+                            }); 
+                         },           
+                    success: function (res) 
+                    {
+                        aviso_registro_tipo_problema(res.tipo_respuesta,res.mensaje,'2')  ;                 
+
+                    } 
+                        }); 
+              evt.stoppropagation();
+            });
+      //  }); 
+   } 
+  
+   function eliminar_tipo_problema(id){
+        var html="<form id='form_editar' action='POST'>\n\
+                    <input type='hidden'     name='txt_edit_id' id='txt_edit_id' value='"+id+"'> \n\
+                     <br><br><input type='submit' class='form-control btn btn-danger envio'    value='ELIMINAR' > \n\
+                  </form>";
+        
+      Swal.fire({
+            title: 'DESEA ELIMINAR EL TIPO DE PROBLEMA?',
+            html: html,
+            type: 'warning',
+             confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showCancelButton: false,
+            showConfirmButton: false
+                    });
+          //  $(document).on('click','.envio',function(){
+            $('#form_editar').submit(function(evt){
+                
+                evt.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: cruds+"control_eliminar_tipo_problema.jsp",
+                    data: $("#form_editar").serialize() ,
+                    beforeSend: function() {
+                    Swal.fire({
+                    title: 'PROCESANDO!',
+                    html: '<strong>ESPERE</strong>...',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            Swal.getContent().querySelector('strong')
+                                .textContent = Swal.getTimerLeft()
+                        }, 1000); }
+                            }); 
+                         },           
+                    success: function (res) 
+                    {
+                        aviso_registro_tipo_problema(res.tipo_respuesta,res.mensaje,'2')  ;                 
+                        $('#form_editar').unbind('submit');                 
+                    
+                    } 
+                        }); 
+              evt.stoppropagation();
+            });
+        //}); 
+   }
+
+
+    function eliminar_subcategoria(id){
         
         Swal.fire({
         target: document.getElementById('modal_submaq') ,       
@@ -2196,7 +2321,76 @@ function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
         
     }
 
-
+ function form_registrar_tipo_problema() 
+    {
+        var html;
+        html = "   <form id='form_cuadro'>   \n\
+                        <br><input type='text' id='descripcion' name='descripcion' placeholder='INGRESE NUEVO TIPO DE PROBLEMA' required> \n\
+                        <br><br><br><input type='submit' value='REGISTRAR' class='form-control bg-success btn color_letra' >  \n\
+                    </form> ";
+        Swal.fire({
+        title:"CREACION DE NUEVO TIPO DE PROBLEMA",
+        type: 'warning',
+        html: html,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        showCancelButton: false,
+        showConfirmButton: false
+        });
+            $('#form_cuadro').on('submit', function (e) 
+            { 
+                e.preventDefault(); 
+                    $.ajax({
+                    type: "POST",
+                    url: cruds + "control_crear_tipo_problema.jsp",
+                    data: $("#form_cuadro").serialize(),
+                    beforeSend: function () 
+                    {
+                        Swal.fire
+                        ({
+                            title: 'PROCESANDO!',
+                            html: 'ESPERE<strong></strong>...',
+                            allowOutsideClick: false,
+                            onBeforeOpen: () => {
+                            Swal.showLoading()
+                            timerInterval = setInterval(() => {
+                            Swal.getContent().querySelector('strong').textContent = Swal.getTimerLeft();
+                                  }, 1000);
+                              }
+                        });
+                    },
+                    success: function (data) 
+                    {
+                        aviso_registro_tipo_problema(data.tipo_respuesta,data.mensaje,"1");
+                    } 
+                  });
+                e.stopPropagation();
+            });
+        
+    }
+    
+      function aviso_registro_tipo_problema(tipo,mensaje,condicion){
+        if(tipo=="1"){
+        swal.fire({
+                type: 'success',
+                text:mensaje,
+                confirmButtonText: "CERRAR"
+                });     
+            if(condicion=="1"){
+                listar_grilla_tipo_problema();
+            }
+            if(condicion=="2"){
+                listar_grilla_tipo_problema();
+            }
+        }
+       else {
+           swal.fire({
+                type: 'error',
+                html:mensaje,
+                confirmButtonText: "CERRAR"
+                });  
+       }
+    }
     function aviso_aprobaciones(tipo,mensaje,pagina){
         if(tipo=="1"){
         swal.fire({
@@ -2214,6 +2408,8 @@ function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
                 });  
        }
     }
+    
+    
 
 
     function actualizar_pass(){
