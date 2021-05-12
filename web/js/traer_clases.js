@@ -398,8 +398,50 @@ $(document).ready(function()
             
         }
                 });      
+    }  
+    function ir_creacion_operarios()
+    {
+        $.ajax({
+        type: "POST",
+        url: ruta_contenedores+'contenedor_crear_operarios.jsp',
+        beforeSend: function() 
+        {
+            $('#div_cargar_menu').show();
+            $('#contenido_row').html('');
+        },           
+        success: function (res) 
+        {
+            $('#contenido').html(res);
+            ir_grilla_operarios();
+           
+             $('#form_upd_operario').submit(function(evt){
+                
+                evt.preventDefault();
+                        actualizar_operario();      
+                evt.stoppropagation();
+
+             });
+             $('#form_add_operario').submit(function(evt){
+                
+                evt.preventDefault();
+                        registrar_operario();      
+                evt.stoppropagation();
+
+             });
+        }
+                });      
     }
   
+    function ir_grilla_operarios(){
+       $.get(ruta_grillas+'grilla_operarios.jsp',  function(res)
+                {
+                    $("#grilla_operarios").html(res);
+                    $("#table_operarios").DataTable();
+                    
+                    
+                 } ); 
+      
+  }
     function ir_panel(){
     $.ajax({
         type: "POST",
@@ -631,16 +673,7 @@ $(document).ready(function()
             
         });
     }      
-        function ir_grilla_operarios()
-    {
-        $.get(ruta_grillas+'grilla_operarios.jsp', function(res)
-        {
-            $("#grilla_operarios").html('');
-            $("#grilla_operarios").html(res);
-            $("#table_operarios").DataTable();
-            
-        });
-    }
+      
     
          function ir_grilla_proveedores()
     {
