@@ -6,7 +6,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include  file="/chequearsesion.jsp" %>
 
-  <input type="button" value="CREAR NUEVO PROVEEDOR TERCERIZADO" class="form-control bg-warning color_letra" data-toggle="modal" id="btn_agregar" data-target="#modal_add_proveedor"  >
+  <input type="button" style="font-weight: bold;color:black;"    value="CREAR NUEVO PROVEEDOR TERCERIZADO" class="form-control bg-warning color_letra" data-toggle="modal" id="btn_agregar" data-target="#modal_add_proveedor"  >
    <input type="hidden" id="txt_areas_asignadas" >
    
    <div id="grilla_proveedores">
@@ -15,12 +15,12 @@
    
     <form id="form_add_proveedor" action="post">
  
-    <div class="modal fade" id="modal_add_proveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_add_proveedor" tabindex="-1"  data-backdrop="static"role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE NUEVO PROVEEDOR</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -39,7 +39,7 @@
           <div class="modal-footer">
               <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="REGISTRAR" >
             <br>
-        <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+        <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
 
           </div>
         </div>
@@ -50,12 +50,12 @@
             
     <form id="form_upd_proveedor" action="post">
  
-    <div class="modal fade" id="modal_upd_proveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_upd_proveedor" tabindex="-1" role="dialog"  data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">EDITAR OPERARIO</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -73,7 +73,7 @@
           <div class="modal-footer">
               <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="EDITAR" >
             <br>
-        <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+        <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
         </div>
          </div>
       </div>

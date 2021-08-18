@@ -10,13 +10,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%   
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
     
  ResultSet rs = fuente.obtenerDato("select * from v_mae_ot_pedidos_generados where id_usuario='"+id_usuario+"'");
       
 %>
+<a>PENDIENTES PEDIDOS GENERADOS</a>
+
 <table id="table_generados" class="table table-striped table-bordered" style="width:100%">
     <thead>
       <th >Nro</th>   

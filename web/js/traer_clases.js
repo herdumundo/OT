@@ -2,12 +2,12 @@ var ruta_contenedores="./contenedores/";
 var cruds="./cruds/";
 var ruta_grillas="./grillas/";
 var ruta_consultas="./consultas/";
-$(document).ready(function()
+var direccion="1";
+ $(document).ready(function()
 {
-    no_volver_atras();
+   no_volver_atras();
     traer_menu();
-        
-          
+    
 });
    
     function no_volver_atras(){
@@ -50,7 +50,16 @@ $(document).ready(function()
 
 })(window);
 }
- 
+   function navegar_paginas(){
+      
+      if(direccion=="1"){
+          traer_menu();
+      }
+      else if (direccion=="2"){
+          ir_panel();
+      }
+      //alert(direccion);
+  }
     function onclickMenu()
     {
         $('#div_registro_pedido').click(function(){
@@ -93,6 +102,8 @@ $(document).ready(function()
            ir_contenedor_pendientes("grilla_pedidos_general.jsp",2);
         });
     }
+  
+
   
     function traer_menu()
     {
@@ -146,10 +157,12 @@ $(document).ready(function()
             }
                 });      
       }        
-    
+   
+     
+     
     function ir_creacion_usuarios()
     {
-         
+ direccion="2";
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_crear_usuario.jsp',
@@ -166,7 +179,7 @@ $(document).ready(function()
          
                  
 
-            ir_grilla_usuarios();
+            ir_grilla_usuarios('7');
              $('#form_add_user').on('submit', function(event)
             {    
                 event.preventDefault();
@@ -179,57 +192,15 @@ $(document).ready(function()
                 event.preventDefault();
                 actualizar_usuario();
                 event.stopPropagation();
-            }); 
-            
-       
-          
-        }
-                });      
-     } 
-     
-     
-    function ir_creacion_usuarios()
-    {
-         
-        $.ajax({
-        type: "POST",
-        url: ruta_contenedores+'contenedor_crear_usuario.jsp',
-        beforeSend: function() 
-        {
-            $('#div_cargar_menu').show();
-            $('#contenido_row').html('');
-        },           
-        success: function (res) 
-        {
-            $('#contenido').html(res);
-            $("#div_areas").css('background-color','LemonChiffon');  
-            cargar_usuario_combo();
-         
-                 
-
-            ir_grilla_usuarios();
-             $('#form_add_user').on('submit', function(event)
-            {    
-                event.preventDefault();
-                registrar_usuario();
-                event.stopPropagation();
-            }); 
-            
-               $('#form_upd_user').on('submit', function(event)
-            {    
-                event.preventDefault();
-                actualizar_usuario();
-                event.stopPropagation();
-            }); 
-            
-       
-          
+             }); 
+        
         }
                 });      
      }    
      
     function ir_creacion_maquinas()
     {
+        direccion="2";
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_crear_maquinas_sub.jsp',
@@ -288,6 +259,7 @@ $(document).ready(function()
      
   function ir_creacion_tipos_problemas()
     {
+        direccion="2";
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_crear_tipos_problemas.jsp',
@@ -307,6 +279,7 @@ $(document).ready(function()
      }     
     function ir_creacion_proveedores()
     {
+        direccion="2";
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_crear_proveedores.jsp',
@@ -342,6 +315,7 @@ $(document).ready(function()
     
     function ir_creacion_roles_areas()
     {
+        direccion="2";
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_crear_roles_areas.jsp',
@@ -401,6 +375,7 @@ $(document).ready(function()
     }  
     function ir_creacion_operarios()
     {
+        direccion="2";
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_crear_operarios.jsp',
@@ -443,6 +418,7 @@ $(document).ready(function()
       
   }
     function ir_panel(){
+     direccion="1";
     $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_menu_panel.jsp',
@@ -657,20 +633,47 @@ $(document).ready(function()
         });
     }   
     function cargar_rol()
-    {
+    { 
+        $('#select_opciones').selectpicker('val', '');
         $.get(ruta_consultas+'consulta_roles.jsp', function(res)
         {
             $("#cbox_rol").html(res.cbox_roles);
         });
     }
-    function ir_grilla_usuarios()
+    function ir_grilla_usuarios(estado)
     {
-        $.get(ruta_grillas+'grilla_usuarios.jsp', function(res)
+        $.get(ruta_grillas+'grilla_usuarios.jsp',({estado:estado}), function(res)
         {
             $("#grilla_usuarios").html('');
             $("#grilla_usuarios").html(res);
-            $("#table_usuarios").DataTable({ scrollX:        true});
-            
+           
+             //   $('#table_usuarios thead tr').clone(true).appendTo( '#table_usuarios thead' );
+                $('#table_usuarios thead tr:eq(0) th').each( function (i) 
+                {
+                    var title = $(this).text();
+                    
+                    if(i<=2)
+                    {
+                        $(this).html( '<input type="text" placeholder="'+title+'" />' );
+                        $( 'input', this ).on( 'keyup change', function () 
+                        {
+                            if ( table.column(i).search() !== this.value ) 
+                            {
+                                table.column(i).search( this.value ).draw();
+                            }
+                        } );
+                    }
+                } );
+                
+                var table = $('#table_usuarios').DataTable({
+                            dom: 'Pfrtip',
+                            "pageLength": 100,
+                            scrollY:        "500px",
+                            scrollX:        true,
+                            "ordering": false 
+    
+                      });
+                 $('.dataTables_filter').hide(); 
         });
     }      
       
@@ -681,7 +684,7 @@ $(document).ready(function()
         {
             $("#grilla_proveedores").html('');
             $("#grilla_proveedores").html(res);
-            $("#table_proveedores").DataTable();
+            $("#table_proveedores").DataTable({ "pageLength": 100});
             
         });
     }
@@ -694,7 +697,7 @@ $(document).ready(function()
     } 
      function cargar_subcat()
     {
-        $.get(ruta_consultas+'consulta_subcat.jsp',{id_maquina:'VINCULACION'},function(res)
+        $.get(ruta_consultas+'consulta_subcat_vinc.jsp',{id_maquina:'VINCULACION'},function(res)
         {
             $("#select_submaq_vinc").html('');
             $("#select_submaq_vinc").html(res.cbox_subcat);
@@ -706,12 +709,13 @@ $(document).ready(function()
         $.get(ruta_grillas+'grilla_areas.jsp', function(res)
         {
             $("#div_table_area").html(res);
-            $('#table_areas').DataTable();
+            $('#table_areas').DataTable({ "pageLength": 100,});
         });
     } 
     
      function ir_grilla_maquinas()
     {
+        $('#select_areas').selectpicker('val', '');
         $.get(ruta_grillas+'grilla_maquinas.jsp', function(res)
         {
             $("#div_grilla_maquina").html(res);
@@ -742,7 +746,7 @@ $(document).ready(function()
         $.get(ruta_grillas+'grilla_tipos_problemas.jsp', function(res)
         {
             $("#grilla").html(res);
-            $('#table_tipo_problema').DataTable();
+            $('#table_tipo_problema').DataTable({ "pageLength": 100,});
         });
     } 
     
@@ -1778,7 +1782,7 @@ $(document).ready(function()
                 success: function (res) 
                 {
                     aviso_registro_area_rol(res.tipo_respuesta,res.mensaje,'modal_upd_user');  
-                    ir_grilla_usuarios();
+                    ir_grilla_usuarios('7');
                 }
                 });
            }
@@ -1819,7 +1823,7 @@ $(document).ready(function()
                 text:mensaje,
                 confirmButtonText: "CERRAR"
                 });
-                 ir_grilla_usuarios();
+                 ir_grilla_usuarios('7');
                  $('#modal_add_usuarios').modal('toggle'); 
        }
        else {
@@ -2496,10 +2500,10 @@ $(document).ready(function()
             var html;
             html = "   <form id='form_cuadro_cancelacion'>   \n\
                              <br><textarea style='text - transform: uppercase; width: 400px; height: 80px'  required name = 'txt_motivo' id='txt_motivo' class='form - control' placeholder='INGRESE EL MOTIVO'></textarea>\n\
-                            <br><br><br><input type='submit' value='CERRAR PEDIDO' class='form-control bg-success btn color_letra' >  \n\
+                            <br><br><br><input type='submit' value='RECHAZAR RESOLUCION' class='form-control bg-success btn color_letra' >  \n\
                         </form> ";
             Swal.fire({
-            title: "DESEA CERRAR EL PEDIDO NRO "+id+" ?",
+            title: "DESEA RECHAZAR LA RESOLUCION?",
             type: 'warning',
             html: html,
             confirmButtonColor: '#3085d6',

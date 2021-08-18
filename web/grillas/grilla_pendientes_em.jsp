@@ -10,14 +10,29 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%   
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
     
  ResultSet rs = fuente.obtenerDato("SELECT * FROM v_mae_ot_pedidos_generados where id_estado=3 and encargado_mant="+id_usuario+"");
       
 %>
-<table id="table_pendientes" class="table table-striped table-bordered" style="width:100%">
+<a>PENDIENTES ASIGNACIONES DE OPERARIOS</a>
+<style>
+table, td, th {
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+  width: 30%;
+}
+
+th {
+  height: 70px;
+}
+</style>
+<table id="table_pendientes" class="table table-striped table-bordered" width="20%">
     <thead>
         <th >ACCION</th>
         <th >NRO</th>   

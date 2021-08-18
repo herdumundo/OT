@@ -14,25 +14,24 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%    
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
     String id           = request.getParameter("txt_id_usuario");
-    String nombre     = request.getParameter("txt_nombre");
+    String nombre       = request.getParameter("txt_nombre");
     String apellido     = request.getParameter("txt_apellido");
-    String txt_usuario      = request.getParameter("txt_usuario");
-    String txt_correo         = request.getParameter("txt_correo");
-     
-    String mensaje="";
-    String areas="";
+    String txt_usuario  = request.getParameter("txt_usuario");
+    String txt_correo   = request.getParameter("txt_correo");
+    String mensaje      ="";
+    String areas        ="";
     int tipo_respuesta=0;    
     try 
     { 
-        cn.setAutoCommit(false);
+        clases.controles.connectSesion.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-                callableStatement = cn.prepareCall("{call [mae_ot_update_usuarios](?,?,?,?,?,?,?)}");
+                callableStatement = clases.controles.connectSesion.prepareCall("{call [mae_ot_update_usuarios](?,?,?,?,?,?,?)}");
                 callableStatement .setInt(1,    Integer.parseInt(id) );
                 callableStatement .setString(2,   nombre);
                 callableStatement .setString(3,   apellido);
@@ -47,12 +46,12 @@
                 mensaje= callableStatement.getString("mensaje");
                 if (tipo_respuesta==0)
                 {
-                    cn.rollback(); 
+                    clases.controles.connectSesion.rollback(); 
                 }   
                 else  
                 {
-                     //cn.rollback(); 
-                    cn.commit();
+                     //clases.controles.connectSesion.rollback(); 
+                    clases.controles.connectSesion.commit();
                     consultas_java.modelos.cargar_usuarios_correos();
                 }    
                 ob.put("mensaje", mensaje);

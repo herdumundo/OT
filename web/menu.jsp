@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
     <link href="estilos/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <link href="estilos/css/jquery-ui.multidatespicker.css" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <link href="estilos/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css"/>
     <link href="estilos/css/modal.css" rel="stylesheet" type="text/css"/>
  </head>
 
@@ -95,7 +95,7 @@
 
       <!-- Topbar Search -->
       <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-          <a onclick="traer_menu()"><%=usuario%></a> 
+          <a onclick="navegar_paginas()"><%=usuario%></a> 
       </form>
 
       <!-- Topbar Navbar -->
@@ -219,13 +219,12 @@
     <script src="lib/picker.js?v=1.0.0"></script>
     <script src="lib/picker.date.js?v=1.1.0"></script>
     <script src="lib/legacy.js?v=1.1.0"></script>
-    <script src="js/traer_clases.js?v=1.1.3" type="text/javascript"></script>
+    <script src="js/traer_clases.js?v=1.1.4" type="text/javascript"></script>
     <script src="js/grilla.js" type="text/javascript"></script>
     <script src="js/multi_select.js" type="text/javascript"></script>
     <script src="estilos/js/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js" type="text/javascript"></script>
-    <script src="js/modal.js" type="text/javascript"></script>
-     
+     <script src="js/modal.js" type="text/javascript"></script>
+     <script src="js/dataTables.rowGroup.js" type="text/javascript"></script>
     </body>
  <footer class="sticky-footer bg-gradient-light  ">
         <div class="container my-auto">

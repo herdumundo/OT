@@ -14,10 +14,11 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%     
+        clases.controles.VerificarConexion();
     String id_usuario = request.getParameter("id_usuario");
     String id_nivel = request.getParameter("id_nivel");
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection clases.controles.connectSesion = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String html="";
     JSONObject ob = new JSONObject();
     ob=new JSONObject();

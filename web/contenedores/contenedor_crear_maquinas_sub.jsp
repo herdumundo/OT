@@ -6,14 +6,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include  file="/chequearsesion.jsp" %>
 
- <%Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn); 
+ <%
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion); 
       String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
       String combo_areas = (String) sesionOk.getAttribute("combo_areas");
    %>
-    <input type="button" value="CREAR MAQUINA"   href="#modalx-flipOut" class=" modalx-flipOut_open form-control bg-success color_letra"  onclick="ir_grilla_maquinas();">
-    <input type="button" value="CREAR PARTES DE LA MAQUINA"  href="#modal_submaq" class="modal_submaq_open form-control bg-success color_letra"   onclick="ir_grilla_subcategoria();">
-    <input type="button" value="ASOCIAR MAQUINAS Y PARTES"  href="#modal_vinculacion" class="modal_vinculacion_open form-control bg-dark color_letra"  onclick="cargar_subcat();" >
+   
+    <input type="button" value="CREAR MAQUINA"  style="font-weight: bold;color:black;"   href="#modalx-flipOut" class=" modalx-flipOut_open form-control bg-success color_letra"  onclick="ir_grilla_maquinas();">
+    <input type="button" value="CREAR PARTES DE LA MAQUINA" style="font-weight: bold;color:black;"   href="#modal_submaq" class="modal_submaq_open form-control bg-success color_letra"   onclick="ir_grilla_subcategoria();">
+    <input type="button" value="ASOCIAR MAQUINAS Y PARTES"  style="font-weight: bold;color:white;"  href="#modal_vinculacion" class="modal_vinculacion_open form-control bg-dark color_letra"  onclick="cargar_subcat();" >
     <input type="hidden" id="txt_areas_asignadas" >
  
     
@@ -28,7 +30,7 @@
                         <input type="hidden"    name="ids_areas" id="ids_areas"  >            
                         <div id="div_areas">
                             <a>ASIGNACION DE AREAS</a>
-                            <select class="form-control  " title="SELECCIONE AREA" id="select_areas" data-style="btn-dark" name="select_areas" required  multiple data-live-search="true">
+                            <select class="form-control  " title="SELECCIONE AREA" id="select_areas" data-style="btn-dark" name="select_areas" required  multiple data-live-search="true" data-actions-box="true">
                                 <%out.println(modelos.cargar_areas());%>
                             </select>
                         </div>

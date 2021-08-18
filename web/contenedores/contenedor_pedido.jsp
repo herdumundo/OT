@@ -13,8 +13,8 @@
 <!DOCTYPE html>
 <%
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     ResultSet rs,rs2;
 %>
     <form id="form_pedido"> 

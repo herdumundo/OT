@@ -10,8 +10,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%   
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
   
     ResultSet rs = fuente.obtenerDato(" select * from v_mae_ot_maquinas where id_estado=7");
 

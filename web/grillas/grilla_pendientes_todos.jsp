@@ -9,14 +9,17 @@
 <jsp:useBean id="fuente" class="clases.fuentedato" scope="page"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <%   
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
     
  ResultSet rs = fuente.obtenerDato("SELECT * FROM v_mae_ot_pedidos_generados where  id_estado in (1,2,3,4,5) and id_area in (select id_area  from mae_ot_det_areas where id_usuario="+id_usuario+"  )");
       
 %>
+ 
+
 <table id="table_pendientes" class="display nowrap" style="width:100%">
     <thead>
         <th >NRO</th>   

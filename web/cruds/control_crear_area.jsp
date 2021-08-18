@@ -15,8 +15,8 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%    
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
@@ -27,9 +27,9 @@
     int tipo_respuesta=0;    
     try 
     {
-        cn.setAutoCommit(false);
+        clases.controles.connectSesion.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-        callableStatement = cn.prepareCall("{call [mae_ot_insert_area](?,?,?,?)}");
+        callableStatement = clases.controles.connectSesion.prepareCall("{call [mae_ot_insert_area](?,?,?,?)}");
         callableStatement .setString(1,   area );
         callableStatement .setInt(2,  Integer.parseInt(tipo));
  
@@ -40,12 +40,12 @@
         mensaje= callableStatement.getString("mensaje");
         if (tipo_respuesta==0)
         {
-            cn.rollback(); 
+            clases.controles.connectSesion.rollback(); 
         }   
         else  
         {
-            //cn.rollback(); 
-            cn.commit();
+            //clases.controles.connectSesion.rollback(); 
+            clases.controles.connectSesion.commit();
             modelos.cargar_areas();
            // sesionOk.setAttribute("combo_areas",modelos.combo_areas);
         }    

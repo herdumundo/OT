@@ -10,8 +10,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%   
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+   // Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String desde    =   request.getParameter("desde");
     String hasta    =   request.getParameter("hasta");
 

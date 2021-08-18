@@ -10,13 +10,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%   
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
     
  ResultSet rs = fuente.obtenerDato("SELECT * FROM v_mae_ot_pedidos_generados where id_estado=4 and (id_usuario_actividad="+id_usuario+" or encargado_mant="+id_usuario+") ");
       
 %>
+<a>PENDIENTES DE RESOLUCIONES</a>
+
 <table id="table_pendientes" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <th >ACCION</th>

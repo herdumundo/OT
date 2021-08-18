@@ -15,8 +15,8 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%    
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
@@ -27,9 +27,9 @@
     int tipo_respuesta=0;    
     try 
     {
-        cn.setAutoCommit(false);
+        clases.controles.connectSesion.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-        callableStatement = cn.prepareCall("{call [mae_ot_vincu_subcategorias](?,?,?,? )}");
+        callableStatement = clases.controles.connectSesion.prepareCall("{call [mae_ot_vincu_subcategorias](?,?,?,? )}");
         callableStatement .setInt(1,  Integer.parseInt(id_maquina)  );
         callableStatement .setString(2,   subcategorias );
           callableStatement.registerOutParameter("estado_registro", java.sql.Types.INTEGER);
@@ -39,12 +39,12 @@
         mensaje= callableStatement.getString("mensaje");
         if (tipo_respuesta==0)
         {
-            cn.rollback(); 
+            clases.controles.connectSesion.rollback(); 
         }   
         else  
         {
-            //cn.rollback(); 
-            cn.commit();
+            //clases.controles.connectSesion.rollback(); 
+            clases.controles.connectSesion.commit();
         }    
             ob.put("mensaje", mensaje);
             ob.put("tipo_respuesta", tipo_respuesta);

@@ -10,13 +10,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%   
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
     
  ResultSet rs = fuente.obtenerDato("select * from v_mae_ot_pedidos_generados where id_estado=1 and id_area in (select id_area from mae_ot_usuario a inner join mae_ot_det_areas b on a.id=b.id_usuario and a.id="+id_usuario+" )");
       
 %>
+<a>PENDIENTES DE JEFE DE AREA</a>
+
 <table id="table_pendientes" class="table table-striped table-bordered" style="width:100%">
     <thead>
       <th >NRO</th>   

@@ -14,8 +14,8 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%    
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
@@ -26,9 +26,9 @@
     String mensaje="";
     int tipo_respuesta=0;    try 
     {
-        cn.setAutoCommit(false);
+        clases.controles.connectSesion.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-                callableStatement = cn.prepareCall("{call  mae_ot_update_correos_destinatarios (?,?,?,?,?)}");
+                callableStatement = clases.controles.connectSesion.prepareCall("{call  mae_ot_update_correos_destinatarios (?,?,?,?,?)}");
                 callableStatement .setInt(1,  Integer.parseInt(id_usuario) );
                 callableStatement .setInt(2,  Integer.parseInt(id_nivel) );
                 callableStatement .setString(3,   arr_id_usuario_envio   );
@@ -40,12 +40,12 @@
                 mensaje= callableStatement.getString("mensaje");
                 if (tipo_respuesta==0)
                 {
-                    cn.rollback(); 
+                    clases.controles.connectSesion.rollback(); 
                 }   
                 else  
                 {
                     //  cn.rollback(); 
-                   cn.commit();
+                   clases.controles.connectSesion.commit();
                 }    
                 ob.put("mensaje", mensaje);
                 ob.put("tipo_respuesta", tipo_respuesta);

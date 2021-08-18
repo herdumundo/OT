@@ -8,7 +8,7 @@
 
   
  
-<input type="button" value="CREAR NUEVO TIPO DE PROBLEMA" class="form-control bg-danger color_letra" onclick="form_registrar_tipo_problema();"  >
+<input type="button" style="font-weight: bold;color:black;" value="CREAR NUEVO TIPO DE PROBLEMA" class="form-control bg-danger color_letra" onclick="form_registrar_tipo_problema();"  >
    <input type="hidden" id="txt_areas_asignadas" >
    
    <div id="grilla">

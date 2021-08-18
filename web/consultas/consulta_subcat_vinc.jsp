@@ -25,10 +25,10 @@
     String sql="";
     if(id_maquina.equals("VINCULACION")){
         sql=" select "
-             + "                    a.id as id_subcat,a.descripcion "
+             + "                    id as id_subcat,descripcion "
              + "                from "
-             + "                    mae_ot_subcategorias a "
-             + "                    inner join mae_ot_det_submaq b on a.id=b.id_subcategoria ";
+             + "                    mae_ot_subcategorias  "
+             + "                     where id_estado='7' ";
     }
     else 
     {
@@ -39,7 +39,7 @@
              + "                    inner join mae_ot_det_submaq b on a.id=b.id_subcategoria "
              + "                where "
              + "                    id_maquina='"+id_maquina+"'";
-        html2= "<OPTION value='' disabled selected='selected'>SELECCIONE CATEGORIA</OPTION><OPTION value='263' >OTROS</OPTION>";
+        html2= "<OPTION value='' disabled selected='selected'>SELECCIONE CATEGORIA</OPTION>";
     }
      rs2 = fuente.obtenerDato(sql);
        while(rs2.next())

@@ -14,8 +14,8 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%    
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
@@ -50,9 +50,9 @@
                     areas=array_areas[i];  
                 }
         }
-        cn.setAutoCommit(false);
+        clases.controles.connectSesion.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-                callableStatement = cn.prepareCall("{call [mae_ot_insert_usuarios](?,?,?,?,?,?,?,?,?,?)}");
+                callableStatement = clases.controles.connectSesion.prepareCall("{call [mae_ot_insert_usuarios](?,?,?,?,?,?,?,?,?,?)}");
                 callableStatement .setString(1,   nombre );
                 callableStatement .setString(2,   apellido);
                 callableStatement .setString(3,  usuario);
@@ -69,12 +69,13 @@
                 mensaje= callableStatement.getString("mensaje");
                 if (tipo_respuesta==0)
                 {
-                    cn.rollback(); 
+                    clases.controles.connectSesion.rollback(); 
                 }   
                 else  
                 {
-                     //cn.rollback(); 
-                    cn.commit();
+                    //  clases.controles.connectSesion.rollback(); 
+                   clases.controles.connectSesion.commit();
+                    consultas_java.modelos.cargar_usuarios_correos();
                 }    
                 ob.put("mensaje", mensaje);
                 ob.put("tipo_respuesta", tipo_respuesta);

@@ -15,8 +15,8 @@
 
 <%     
     String id_rol = request.getParameter("cbox_rol");
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String html="";
     JSONObject ob = new JSONObject();
     ob=new JSONObject();

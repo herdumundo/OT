@@ -6,26 +6,32 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include  file="/chequearsesion.jsp" %>
 
- <%Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn); 
-      String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
-      String combo_areas = (String) sesionOk.getAttribute("combo_areas");
+ <%
+        clases.controles.VerificarConexion();
+        fuente.setConexion(clases.controles.connectSesion); 
+        String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
+        String combo_areas = (String) sesionOk.getAttribute("combo_areas");
    %>
-    <input type="button" value="CREAR USUARIO" class="form-control bg-success" data-toggle="modal" id="btn_agregar_usuario" data-target="#modal_add_usuarios"  onclick="limpiar_modal_add_usuarios();cargar_usuario_combo();">
+   
+    <input type="button" style="font-weight: bold;color:black;" value="CREAR USUARIO" class="form-control bg-success color_letra" data-toggle="modal" id="btn_agregar_usuario" data-target="#modal_add_usuarios"  onclick=" $('.dataTables_filter').hide();limpiar_modal_add_usuarios();cargar_usuario_combo();">
+    <br>
+    <input type="button" style="font-weight: bold;color:black;" value="VER USUARIOS INACTIVOS" class="form-control bg-warning color_letra"    onclick="ir_grilla_usuarios('8')">
+    <br>
+    <input type="button" style="font-weight: bold;color:black;" value="VER USUARIOS ACTIVOS" class="form-control bg-primary color_letra"    onclick="ir_grilla_usuarios('7')">
     <input type="hidden" id="txt_areas_asignadas" >
     <input type="hidden" id="txt_usuarios_correos_destinatarios" >
-   
+   <br>
     <div id="grilla_usuarios">
      
     </div>
    
     <form id="form_add_user" action="post">
-        <div class="modal fade" id="modal_add_usuarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modal_add_usuarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  data-backdrop="static"aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE NUEVO USUARIO</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -58,7 +64,7 @@
               <div class="modal-footer">
                   <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="REGISTRAR" >
                 <br>
-            <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+            <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
 
               </div>
             </div>
@@ -72,7 +78,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">EDITAR USUARIO</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
@@ -92,7 +98,7 @@
                 <div class="modal-footer">
                     <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="EDITAR" >
                     <br>
-                    <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+                    <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
                 </div>
              </div>
           </div>
@@ -105,7 +111,7 @@
                     <div class="modal-content">
                         <div class="modal-header" id="div_contenido_correo">
                             <h5 class="modal-title" id="exampleModalLabel">CONFIGURACION DE CORREOS USUARIOS</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                                 </button>
                         </div>
@@ -120,7 +126,7 @@
                         <div class="modal-footer">
                             <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="REGISTRAR" >
                             <br>
-                            <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+                            <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
                         </div>
                     </div>
             </div>

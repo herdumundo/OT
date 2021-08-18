@@ -4,9 +4,11 @@
     Author     : HERNAN VELAZQUEZ
 --%>
 
+<%@page import="clases.controles"%>
 <%@ page session="true" %>
 <%
 HttpSession sesionOk = request.getSession();
 sesionOk.invalidate();request.getSession().invalidate();
+controles.connectSesion.close();
 %>
 <meta http-equiv="Refresh" content="1;url=index.html">

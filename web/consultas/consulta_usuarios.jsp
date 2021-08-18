@@ -8,13 +8,12 @@
 <%@page import="java.sql.Connection"%>
 <%@ page session="true" %>
 <%@include  file="../chequearsesion.jsp" %>
-<jsp:useBean id="conexion" class="clases.bdconexion1" scope="page" />
 <jsp:useBean id="fuente" class="clases.fuentedato" scope="page" />
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%     
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String html="";
     JSONObject ob = new JSONObject();
     ob=new JSONObject();

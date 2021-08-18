@@ -17,7 +17,7 @@
             <a>INGRESAR FECHA HASTA</a>
             <input id="fecha_hasta" name="fecha_hasta" class="datepicker" data-format="dd/mm/yyyy"  width="276"  />
     <br><br>
-    <input type="button" value="BUSCAR" class="form-control bg-gradient-primary color_letra" onclick="ir_grilla_pedidos_general();">
+    <input type="button" style="font-weight: bold;color:black;" value="BUSCAR" class="form-control bg-gradient-primary color_letra" onclick="ir_grilla_pedidos_general();">
     <br><br>    
  </div>
 

@@ -18,8 +18,8 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%    
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     JSONObject ob = new JSONObject();
     ob=new JSONObject();
 
@@ -41,9 +41,9 @@
 
     int tipo_respuesta=0;    try 
     {
-        cn.setAutoCommit(false);
+        clases.controles.connectSesion.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-                callableStatement = cn.prepareCall("{call [mae_ot_insert_pedido](?,?,?,?,?,?,?,?,?,?,?)}");
+                callableStatement = clases.controles.connectSesion.prepareCall("{call [mae_ot_insert_pedido](?,?,?,?,?,?,?,?,?,?,?)}");
                 callableStatement .setInt(1,  Integer.parseInt(id_usuario) );
                 callableStatement .setInt(2,  Integer.parseInt(id_nivel) );
                 callableStatement .setInt(3, Integer.parseInt(tipo_pedido));
@@ -61,12 +61,12 @@
                 mensaje= callableStatement.getString("mensaje");
                 if (tipo_respuesta==0)
                 {
-                    cn.rollback(); 
+                    clases.controles.connectSesion.rollback(); 
                 }   
                 else  
                 {
                     int i=0;
-                     cn.commit();
+                     clases.controles.connectSesion.commit();
                  /*    ResultSet rs = fuente.obtenerDato("select   a.correo from mae_ot_usuario a inner join mae_ot_correos_envio b  on a.id=b.id_usuario_envio_correo  where b.id_usuario="+id_usuario+" and b.id_nivel="+id_nivel+"");
                      while (rs.next()) 
                      {

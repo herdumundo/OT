@@ -4,7 +4,8 @@
     Author     : hvelazquez
 --%>
 
- <%@page import="org.json.JSONObject"%>
+ <%@page import="clases.controles"%>
+<%@page import="org.json.JSONObject"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Connection"%>
 <%@ page session="true" %>
@@ -14,8 +15,9 @@
 <%@page contentType="application/json; charset=utf-8" %>
 
 <%     
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+    //Connection clases.controles.connectSesion = conexion.crearConexion();
+    controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String html="";
     JSONObject ob = new JSONObject();
     ob=new JSONObject();

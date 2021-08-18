@@ -11,8 +11,8 @@
 <!DOCTYPE html>
 <%  
     String id_maquina       = request.getParameter("id_maquina");
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn); 
+   // Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion); 
     ResultSet rs,rs2,rs3;
     rs = fuente.obtenerDato("select * from v_mae_ot_maquinas_subcat where id_estado=7 and id_maquina="+id_maquina+"");
     int id=1;

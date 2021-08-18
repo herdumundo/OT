@@ -7,19 +7,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include  file="/chequearsesion.jsp" %>
 
- <%Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn); 
+ <%
+    clases.controles.VerificarConexion();
+    fuente.setConexion(clases.controles.connectSesion); 
       String combo_opciones = (String) sesionOk.getAttribute("combo_opciones");
       String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
  
       modelos.cargar_roles();
    %>
  
-   <input type="button" value="CREAR AREA" class="form-control bg-success color_letra" data-toggle="modal"   data-target="#modal_add_area"  onclick="ir_grilla_areas();$('#area').val('');">
+   <input type="button" style="font-weight: bold;color:black;" value="CREAR AREA" class="form-control bg-success color_letra" data-toggle="modal"   data-target="#modal_add_area"  onclick="ir_grilla_areas();$('#area').val('');">
    <br>
-   <input type="button" value="CREAR ROL" class="form-control bg-primary color_letra" data-toggle="modal"  data-target="#modal_add_rol"     onclick="ir_grilla_roles();$('#rol').val('');">
+   <input type="button" style="font-weight: bold;color:black;" value="CREAR ROL" class="form-control bg-primary color_letra" data-toggle="modal"  data-target="#modal_add_rol"     onclick="ir_grilla_roles();$('#rol').val('');">
    <br>
-   <input type="button" value="AGREGAR ACCESOS A ROLES" class="form-control bg-warning color_letra" data-toggle="modal"  data-target="#modal_add_vinculacion_rol"  onclick="cargar_rol();$('#rol').val('');">
+   <input type="button" style="font-weight: bold;color:black;" value="AGREGAR ACCESOS A ROLES" class="form-control bg-warning color_letra" data-toggle="modal"  data-target="#modal_add_vinculacion_rol"  onclick="cargar_rol();$('#rol').val('');">
    <input type="hidden" id="txt_areas_asignadas" >
    
    <div id="grilla_usuarios">
@@ -28,12 +29,12 @@
    
     <form id="form_add_area" action="post">
  
-    <div class="modal fade" id="modal_add_area" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_add_area" tabindex="-1" role="dialog"  data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE NUEVO AREA</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -45,7 +46,7 @@
           <div class="modal-footer">
               <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="REGISTRAR" >
             <br>
-        <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+        <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
 
           </div>
             
@@ -58,12 +59,12 @@
             
     <form id="form_add_rol" action="post">
  
-    <div class="modal fade" id="modal_add_rol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_add_rol" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE NUEVO ROL</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -76,7 +77,7 @@
           <div class="modal-footer">
               <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="REGISTRAR" >
             <br>
-        <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+        <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
         </div>
             <div id="div_table_rol"></div>
 
@@ -87,12 +88,12 @@
             
   <form id="form_add_vinculacion_rol" action="post">
  
-    <div class="modal fade" id="modal_add_vinculacion_rol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_add_vinculacion_rol" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">VINCULACION DE OPCIONES A ROLES</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-weight: bold;color:black;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -112,7 +113,7 @@
           <div class="modal-footer">
               <input type="submit" class="form-control btn btn-success"  id="btn_add_usuario" value="REGISTRAR" >
             <br>
-        <button class="form-control btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button> 
+        <button class="form-control btn btn-secondary" type="button" style="font-weight: bold;color:black;" data-dismiss="modal">CANCELAR</button> 
         </div>
          </div>
       </div>

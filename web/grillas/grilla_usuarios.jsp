@@ -10,13 +10,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%  try {  
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
-    String id_usuario = (String) sesionOk.getAttribute("id_usuario");
-   // String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
-    //String combo_areas = (String) sesionOk.getAttribute("combo_areas"); 
+    //Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
+    String id_usuario   = (String) sesionOk.getAttribute("id_usuario");
+    String estado       = request.getParameter("estado");
+
     ResultSet rs,rs2,rs3;
-    rs = fuente.obtenerDato("select * from v_mae_ot_usuarios");
+    rs = fuente.obtenerDato("select * from v_mae_ot_usuarios where id_estado="+estado+"");
     int id=1;
 
          
@@ -54,9 +54,9 @@
                 
                 <td><select id="select_correo<%=id%>"   class="form-control"    onchange ="$('#txt_usuarios_correos_destinatarios').val($('#select_correo'+<%=id%>).val()); actualizar_correos_destinatarios('<%=rs.getString("id_usuario")%>',$('#txt_usuarios_correos_destinatarios').val(),$('#nivel'+<%=id%>).val());"    title="SIN DESTINATARIO"  multiple  data-live-search="true"> <%=consultas_java.modelos.combo_correos%></select></td>
                 
-                <td><input  type="button"               class="btn form-control bg-primary color_letra" value="RESTABLECER CONTRASEÑA" onclick="restablecer_pass_usuario('<%=rs.getString("id_usuario")%>')"> </td>
+                <td><input  type="button"               class="btn form-control bg-primary color_letra" value="RESTABLECER" onclick="restablecer_pass_usuario('<%=rs.getString("id_usuario")%>')"> </td>
                 
-                <td><input  type="button"               class="btn form-control bg-warning color_letra" value="EDITAR DATOS" data-toggle="modal"  onclick="$('#txt_id_usuario').val('<%=rs.getString("id_usuario")%>');$('#txt_nombre').val('<%=rs.getString("first")%>');$('#txt_apellido').val('<%=rs.getString("last")%>');$('#txt_usuario').val('<%=rs.getString("usuario")%>');$('#txt_correo').val('<%=rs.getString("correo")%>')"  data-target="#modal_upd_user"> </td>
+                <td><input  type="button"               class="btn form-control bg-warning color_letra" value="EDITAR" data-toggle="modal"  onclick="$('#txt_id_usuario').val('<%=rs.getString("id_usuario")%>');$('#txt_nombre').val('<%=rs.getString("first")%>');$('#txt_apellido').val('<%=rs.getString("last")%>');$('#txt_usuario').val('<%=rs.getString("usuario")%>');$('#txt_correo').val('<%=rs.getString("correo")%>')"  data-target="#modal_upd_user"> </td>
 
             </tr>
             <script>
@@ -89,6 +89,20 @@
             }      
         }%>
     </tbody>
+     <tfoot>
+            <tr>
+               <th >NOMBRE</th>   
+        <th >USUARIO SISTEMA</th>   
+        <th >CORREO</th>   
+        <th >NIVEL</th>   
+        <th >TIPO DE ACCESO</th>   
+        <th >AREAS ASIGNADAS</th>   
+        <th >ESTADO</th>   
+        <th >CORREOS DESTINATARIOS</th>   
+        <th >CONTRASEÑA</th>   
+        <th >EDITAR</th>   
+            </tr>
+        </tfoot>  
  </table>
     <%} 
 catch (Exception e) {

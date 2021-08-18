@@ -1,7 +1,6 @@
  package consultas_java;
 
-import javax.servlet.http.*;  
-import javax.servlet.*;  
+
 import java.io.*;  
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -9,9 +9,10 @@
 <jsp:useBean id="fuente" class="clases.fuentedato" scope="page"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%  try {  
-    Connection cn = conexion.crearConexion();
-    fuente.setConexion(cn);
+<%  try 
+{  
+   // Connection cn = conexion.crearConexion();
+    fuente.setConexion(clases.controles.connectSesion);
     String id_usuario = (String) sesionOk.getAttribute("id_usuario");
     String combo_nivel = (String) sesionOk.getAttribute("combo_nivel");
     String combo_areas = (String) sesionOk.getAttribute("combo_areas");    

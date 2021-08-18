@@ -12,7 +12,7 @@ public class bdconexion1
  
         String clase   = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
         String motorBD = "sqlserver";
-        String usuario = "sa";
+        String usuario = "cch";
         String bd      = "GrupoMaehara";//CAMBIAR BASE DE DATOS
         String servidor= "172.16.1.202";        
         String clave   = "Paraguay2017";

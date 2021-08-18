@@ -1,23 +1,21 @@
 <%-- 
     Document   : CERRARSESION
-    Created on : 26/01/2016, 08:08:09 PM
+    Created on : 26/01/2021, 08:08:09 PM
     Author     : HERNAN VELAZQUEZ
 --%>
 <%@page import="consultas_java.modelos"%>
- <%@page import="javax.swing.JOptionPane"%>
-<%@ page session="true" %>
-<%@ page language="java" import="java.sql.*" errorPage="error.jsp"%>
+<%@page import="javax.swing.JOptionPane"%>
+<%@page session="true" %>
+<%@page language="java" import="java.sql.*" errorPage="error.jsp"%>
 <jsp:useBean id="conexion" class="clases.bdconexion1" scope="page" />
 <jsp:useBean id="fuente" class="clases.fuentedato" scope="page" />
 <%
-  // Crear objeto de conexion al DB
-  Connection cn = conexion.crearConexion();
-  // Asignar conexin al objeto manejador de datos
-  fuente.setConexion(cn);
+    clases.controles.connectarBDsesion();
+    fuente.setConexion(clases.controles.connectSesion);
     ResultSet rs,rs2;
     String usu = request.getParameter("usuario");
     String cla = request.getParameter("pass");
-      rs = fuente.obtenerDato("EXEC mae_cch_ot_login_verificacion  @usuario='"+usu+"' ,@pass='"+cla+"'");
+    rs = fuente.obtenerDato("EXEC mae_cch_ot_login_verificacion  @usuario='"+usu+"' ,@pass='"+cla+"'");
     String html="";
     if(rs.next())
     {
@@ -39,10 +37,9 @@
         sesionOk.setAttribute("combo_opciones",modelos.combo_opciones);
         sesionOk.setAttribute("combo_roles",modelos.combo_roles);
         sesionOk.setAttribute("combo_correos",modelos.combo_correos);
-
     } 
     else
     {
-   response.sendRedirect("../login_error.jsp");
+        response.sendRedirect("../login_error.jsp");
     } 
 %>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3a1be478-d761-4448-80b4-186b0bfb60aa">
+	<property name="ireport.zoom" value="1.610510000000005"/>
+	<property name="ireport.x" value="69"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<queryString>
+		<![CDATA[Select  c.descripcion as area ,
+ 
+
+case when a.id_estado=1 then isnull(count(a.id_estado),0) else 0 end as 'PENDIENTE APROBACION JEFE DE AREA',
+case when a.id_estado=2 then isnull(count(a.id_estado),0) else 0 end as 'PENDIENTE APROBACION JEFE MANTENIMIENTO',
+case when a.id_estado=3 then isnull(count(a.id_estado),0) else 0 end as 'PENDIENTE ASIGNACION DE OPERARIOS',
+case when a.id_estado=4then isnull(count(a.id_estado),0) else 0 end as 'PENDIENTE DE RESOLUCION',
+case when a.id_estado=5 then isnull(count(a.id_estado),0) else 0 end as 'PENDIENTE DE VERIFICACION',
+case when a.id_estado=6 then isnull(count(a.id_estado),0) else 0 end as 'CERRADO POR VERIFICACION', 
+case when a.id_estado=9 then isnull(count(a.id_estado),0)else 0 end as 'CERRADO'
+
+from 
+mae_ot_pedidos a inner join mae_ot_estados b on a.id_estado=b.id 
+inner join mae_ot_areas c on a.id_area=c.id
+group by  b.descripcion,a.id_area,c.descripcion,a.id_estado]]>
+	</queryString>
+	<field name="area" class="java.lang.String"/>
+	<field name="PENDIENTE APROBACION JEFE DE AREA" class="java.lang.Integer"/>
+	<field name="PENDIENTE APROBACION JEFE MANTENIMIENTO" class="java.lang.Integer"/>
+	<field name="PENDIENTE ASIGNACION DE OPERARIOS" class="java.lang.Integer"/>
+	<field name="PENDIENTE DE RESOLUCION" class="java.lang.Integer"/>
+	<field name="PENDIENTE DE VERIFICACION" class="java.lang.Integer"/>
+	<field name="CERRADO POR VERIFICACION" class="java.lang.Integer"/>
+	<field name="CERRADO" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch"/>
+	</title>
+	<columnHeader>
+		<band height="31">
+			<staticText>
+				<reportElement x="3" y="0" width="52" height="30" uuid="2297abae-e186-40d6-adf3-05a9e5527fce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[AREA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="0" width="109" height="30" uuid="2867200c-b987-42df-9f9a-41024c971840"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PENDIENTE APROBACION JEFE DE AREA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="0" width="109" height="30" uuid="2ba1480e-1ec9-449a-ae6b-f8565fc519ce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PENDIENTE APROBACION JEFE MANTENIMIENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="0" width="109" height="30" uuid="1aac19ef-fec9-4756-889c-d8f5e88bfaed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PENDIENTE ASIGNACION DE OPERARIOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="0" width="70" height="30" uuid="d3bff4f8-cc59-48a0-8203-28c942f29143"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PENDIENTE DE RESOLUCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="552" y="0" width="75" height="30" uuid="d3de728f-66d3-4e95-9317-0e35a21754b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CERRADO POR VERIFICACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="477" y="0" width="70" height="30" uuid="afab224d-221f-4c44-85ec-5cb4f2b78791"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PENDIENTE DE VERIFICACION]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="30" width="627" height="1" uuid="521e2923-a379-484a-915e-b093428e5ab4"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="627" height="1" uuid="45f8b157-fd42-4356-829b-249f1462b680"/>
+			</line>
+			<line>
+				<reportElement x="626" y="1" width="1" height="30" uuid="4e9ed0a3-1115-4b95-9644-c65a56f1b1a8"/>
+			</line>
+			<line>
+				<reportElement x="549" y="1" width="1" height="30" uuid="96c2be35-86dc-4568-bed1-400aa190f1ad"/>
+			</line>
+			<line>
+				<reportElement x="474" y="1" width="1" height="30" uuid="6141f835-e17a-4580-8ee5-e0d64e32c746"/>
+			</line>
+			<line>
+				<reportElement x="398" y="1" width="1" height="30" uuid="aba23ed9-0c2d-4416-bbf3-5555c5b6179f"/>
+			</line>
+			<line>
+				<reportElement x="285" y="1" width="1" height="30" uuid="5d1a8f92-a2ba-4edf-8dd3-b5279467bd4d"/>
+			</line>
+			<line>
+				<reportElement x="171" y="1" width="1" height="30" uuid="877922d8-60cf-4aab-9092-fed6abd942b2"/>
+			</line>
+			<line>
+				<reportElement x="57" y="1" width="1" height="30" uuid="8947f31e-fcae-48f3-8542-93a137434ee6"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="30" uuid="2709471f-f3fc-4c80-a841-a0df5804a16c"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22">
+			<textField>
+				<reportElement x="3" y="0" width="52" height="20" uuid="fbd929f5-83aa-452b-a10c-cb7641666cde"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="0" width="109" height="20" uuid="4e72281f-5538-4b42-a940-ba604c4a1816"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PENDIENTE APROBACION JEFE DE AREA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="0" width="109" height="20" uuid="a9c1943c-2cf0-48fd-9487-6e126b1a8891"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PENDIENTE APROBACION JEFE MANTENIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="0" width="109" height="20" uuid="b18f305d-e443-40e3-af2b-9e2c6d14367e"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PENDIENTE ASIGNACION DE OPERARIOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="552" y="0" width="75" height="20" uuid="5de05d27-6e35-4f18-800b-88cf19713865"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CERRADO POR VERIFICACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="477" y="0" width="70" height="20" uuid="b459f222-3740-4ee4-bd3a-1235714f761c"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PENDIENTE DE VERIFICACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="0" width="70" height="20" uuid="279bb0df-e579-4408-9754-8d091ec5854f"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PENDIENTE DE RESOLUCION}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="20" width="627" height="1" uuid="732a7dcc-fc7b-4f72-9faf-94226d33d973"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="20" uuid="ebca4ba1-2b40-439c-aae0-e8ba94e87948"/>
+			</line>
+			<line>
+				<reportElement x="626" y="0" width="1" height="21" uuid="d9729f2b-88b3-45ae-9555-908cfb8d200a"/>
+			</line>
+			<line>
+				<reportElement x="57" y="0" width="1" height="20" uuid="47f3635d-ca11-4137-abc5-0651bc326636"/>
+			</line>
+			<line>
+				<reportElement mode="Transparent" x="171" y="0" width="1" height="20" uuid="85c934f8-b7a6-431e-8b6e-dcac129ad3a2"/>
+			</line>
+			<line>
+				<reportElement mode="Transparent" x="285" y="0" width="1" height="20" uuid="d1fc47e0-9c37-4e0e-b0a5-b1c14b93b264"/>
+			</line>
+			<line>
+				<reportElement mode="Transparent" x="398" y="0" width="1" height="20" uuid="4eecaaf4-fdbb-40ff-8ad2-d5e464bdc130"/>
+			</line>
+			<line>
+				<reportElement mode="Transparent" x="474" y="0" width="1" height="20" uuid="dc5cda8b-b397-4563-ab66-5ebd28b789dd"/>
+			</line>
+			<line>
+				<reportElement mode="Transparent" x="549" y="0" width="1" height="20" uuid="3dfcc9bc-1591-4a6a-9e24-42391ffacdf7"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="39" splitType="Stretch"/>
+	</summary>
+</jasperReport>
