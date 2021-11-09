@@ -23,6 +23,7 @@
     String id_pedido        = request.getParameter("id");
     String txt_resolucion        = request.getParameter("txt_resolucion");
     String nota             = request.getParameter("nota");
+    String fecha_ejecucion             = request.getParameter("fecha_ejecucion");
  
     String mensaje="";
     int tipo_respuesta=0;    
@@ -30,11 +31,12 @@
     {
         clases.controles.connectSesion.setAutoCommit(false);
         CallableStatement  callableStatement=null;   
-        callableStatement = clases.controles.connectSesion.prepareCall("{call [mae_ot_aprobar_resolucion](?,?,?,?,?,?)}");
+        callableStatement = clases.controles.connectSesion.prepareCall("{call [mae_ot_aprobar_resolucion](?,?,?,?,?,?,?)}");
         callableStatement .setInt(1,    Integer.parseInt(id_usuario) );
         callableStatement .setInt(2,    Integer.parseInt(id_pedido) );
         callableStatement .setString(3, txt_resolucion );
         callableStatement .setString(4, nota); 
+        callableStatement .setString(5, fecha_ejecucion); 
                 
         callableStatement.registerOutParameter("estado_registro", java.sql.Types.INTEGER);
         callableStatement.registerOutParameter("mensaje", java.sql.Types.VARCHAR);
@@ -48,7 +50,7 @@
         }   
         else  
         {
-            //clases.controles.connectSesion.rollback(); 
+           // clases.controles.connectSesion.rollback(); 
             clases.controles.connectSesion.commit();
         }    
         ob.put("mensaje", mensaje);

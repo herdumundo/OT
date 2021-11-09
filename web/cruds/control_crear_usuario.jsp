@@ -3,6 +3,8 @@
     Created on : 07/04/2021, 08:53:01 AM
     Author     : hvelazquez
 --%>
+<%@page import="java.math.BigInteger"%>
+<%@page import="java.security.MessageDigest"%>
 <%@page import="java.sql.CallableStatement"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.sql.ResultSet"%>
@@ -29,6 +31,16 @@
     String[] array_areas = request.getParameterValues("select_areas");
     String mensaje="";
     String areas="";
+    
+    MessageDigest m = MessageDigest.getInstance("MD5");
+    m.reset();
+    m.update(pass.getBytes());
+    byte[] digest = m.digest();
+    BigInteger bigInt = new BigInteger(1,digest);
+    String hashtext = bigInt.toString(16);
+
+    
+    
     int tipo_respuesta=0;    
     try 
     {
@@ -56,7 +68,7 @@
                 callableStatement .setString(1,   nombre );
                 callableStatement .setString(2,   apellido);
                 callableStatement .setString(3,  usuario);
-                callableStatement .setString(4, pass);
+                callableStatement .setString(4, hashtext);
                 callableStatement .setString(5, correo);
                 callableStatement .setInt(6, Integer.parseInt(nivel));
                 callableStatement .setInt(7, Integer.parseInt(rol)  );

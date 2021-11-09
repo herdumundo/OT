@@ -50,7 +50,8 @@ var direccion="1";
 
 })(window);
 }
-   function navegar_paginas(){
+    
+    function navegar_paginas(){
       
       if(direccion=="1"){
           traer_menu();
@@ -60,6 +61,7 @@ var direccion="1";
       }
       //alert(direccion);
   }
+    
     function onclickMenu()
     {
         $('#div_registro_pedido').click(function(){
@@ -102,8 +104,6 @@ var direccion="1";
            ir_contenedor_pendientes("grilla_pedidos_general.jsp",2);
         });
     }
-  
-
   
     function traer_menu()
     {
@@ -158,11 +158,9 @@ var direccion="1";
                 });      
       }        
    
-     
-     
     function ir_creacion_usuarios()
     {
- direccion="2";
+        direccion="2";
         $.ajax({
         type: "POST",
         url: ruta_contenedores+'contenedor_crear_usuario.jsp',
@@ -257,7 +255,7 @@ var direccion="1";
                 });      
      }   
      
-  function ir_creacion_tipos_problemas()
+    function ir_creacion_tipos_problemas()
     {
         direccion="2";
         $.ajax({
@@ -373,6 +371,7 @@ var direccion="1";
         }
                 });      
     }  
+    
     function ir_creacion_operarios()
     {
         direccion="2";
@@ -417,6 +416,7 @@ var direccion="1";
                  } ); 
       
   }
+    
     function ir_panel(){
      direccion="1";
     $.ajax({
@@ -458,7 +458,7 @@ var direccion="1";
                 });      
   }
     
-   function ir_grilla_pedidos_general(){
+    function ir_grilla_pedidos_general(){
        $("#div_table_pendientes").html('');
        $('#loading_cubo').show();
        
@@ -470,6 +470,7 @@ var direccion="1";
                     activar_datatable_pendientes();
                 } );   
    }
+    
     function ir_contenedor_pendientes(pagina,tipo)
     {
         $.ajax({
@@ -502,7 +503,6 @@ var direccion="1";
         }
                 });      
     } 
-    
     
     function ir_grilla_pendiente_aprobaciones(pagina)
     {
@@ -624,7 +624,8 @@ var direccion="1";
             $("#cbox_maquina").html(res.cbox_maquina);
         });
     }   
-      function cargar_usuario_combo()
+    
+    function cargar_usuario_combo()
     {
         $.get(ruta_consultas+'consulta_usuarios.jsp', function(res)
         {
@@ -632,6 +633,7 @@ var direccion="1";
             $('#cbox_multi_usuario').selectpicker();
         });
     }   
+    
     function cargar_rol()
     { 
         $('#select_opciones').selectpicker('val', '');
@@ -667,8 +669,8 @@ var direccion="1";
                 
                 var table = $('#table_usuarios').DataTable({
                             dom: 'Pfrtip',
-                            "pageLength": 100,
-                            scrollY:        "500px",
+                            "pageLength": 50,
+                            //scrollY:        "500px",
                             scrollX:        true,
                             "ordering": false 
     
@@ -677,8 +679,7 @@ var direccion="1";
         });
     }      
       
-    
-         function ir_grilla_proveedores()
+    function ir_grilla_proveedores()
     {
         $.get(ruta_grillas+'grilla_proveedores.jsp', function(res)
         {
@@ -732,7 +733,7 @@ var direccion="1";
         });
     }
     
-   function ir_grilla_maquina_subcategoria(id_maquina)
+    function ir_grilla_maquina_subcategoria(id_maquina)
     {
         $.get(ruta_grillas+'grilla_maquinas_subcategorias.jsp',({id_maquina:id_maquina}) ,function(res)
         {
@@ -842,7 +843,7 @@ var direccion="1";
     }); 
    }
  
-  function registrar_maquina(){
+    function registrar_maquina(){
       $('#ids_areas').val($('#select_areas').val());
        
          Swal.fire({
@@ -886,7 +887,7 @@ var direccion="1";
     });  
    }
    
-   function registrar_subcategoria(){
+    function registrar_subcategoria(){
         
          Swal.fire({
         target: document.getElementById('modal_submaq') ,       
@@ -929,9 +930,7 @@ var direccion="1";
     });  
    }
    
-
-
-  function registrar_vinculacion_subcategorias(){
+    function registrar_vinculacion_subcategorias(){
         $('#id_vinculaciones_subcat').val($('#select_submaq_vinc').val()) ;
 
         Swal.fire({
@@ -975,9 +974,7 @@ var direccion="1";
     });  
    }
    
-   
-   
- function eliminar_maquina(id){
+    function eliminar_maquina(id){
         
          Swal.fire({
            target: document.getElementById('modalx-flipOut') ,       
@@ -1024,6 +1021,7 @@ var direccion="1";
             }
     });  
    }
+    
     function editar_maquinas_submaq(id,descripcion,modal,procedure,condicion){
         var html="<form id='form_editar' action='POST'>\n\
                     <input type='hidden'     name='txt_edit_id' id='txt_edit_id' value='"+id+"'> \n\
@@ -1079,7 +1077,6 @@ var direccion="1";
         //}); 
    }
    
- 
     function aviso_registro_maquina_sub(tipo,mensaje,modal,condicion){
        if(tipo=="1"){
         swal.fire({
@@ -1128,8 +1125,7 @@ var direccion="1";
         
    }
    
-   
-   function editar_tipo_problema(id,descripcion){
+    function editar_tipo_problema(id,descripcion){
         var html="<form id='form_editar' action='POST'>\n\
                     <input type='hidden'     name='txt_edit_id' id='txt_edit_id' value='"+id+"'> \n\
                     <input type='text'  required  name='txt_edit_descripcion' id='txt_edit_descripcion' value='"+descripcion+"'> \n\
@@ -1177,7 +1173,7 @@ var direccion="1";
       //  }); 
    } 
   
-   function eliminar_tipo_problema(id){
+    function eliminar_tipo_problema(id){
         var html="<form id='form_editar' action='POST'>\n\
                     <input type='hidden'     name='txt_edit_id' id='txt_edit_id' value='"+id+"'> \n\
                      <br><br><input type='submit' class='form-control btn btn-danger envio'    value='ELIMINAR' > \n\
@@ -1224,8 +1220,7 @@ var direccion="1";
             });
         //}); 
    }
-
-
+    
     function eliminar_subcategoria(id){
         
         Swal.fire({
@@ -1273,6 +1268,7 @@ var direccion="1";
             }
     });  
    }
+    
     function registrar_proveedor(){
         Swal.fire({
         title: 'CONFIRMACION',
@@ -1314,6 +1310,7 @@ var direccion="1";
             }
     }); 
    }
+    
     function registrar_operario(){
         Swal.fire({
         title: 'CONFIRMACION',
@@ -1398,7 +1395,7 @@ var direccion="1";
     }); 
    }
    
-      function actualizar_proveedor(){
+    function actualizar_proveedor(){
         Swal.fire({
         title: 'CONFIRMACION',
         text: "DESEA REGISTRAR LOS CAMBIOS?",
@@ -1479,7 +1476,8 @@ var direccion="1";
             }   
     }); 
    }
-   function eliminar_vinculacion_subcategoria(id){
+    
+    function eliminar_vinculacion_subcategoria(id){
        
         Swal.fire({
         target: document.getElementById('modal_vinculacion') ,       
@@ -1567,6 +1565,7 @@ var direccion="1";
             }
     }); 
    }
+    
     function registrar_rol(){
         Swal.fire({
         title: 'CONFIRMACION',
@@ -1640,7 +1639,8 @@ var direccion="1";
             }
                 });
 }
-  function actualizar_nivel_usuario(id_usuario,id_nivel,tipo,id_combo){
+    
+    function actualizar_nivel_usuario(id_usuario,id_nivel,tipo,id_combo){
     
        $.ajax({
                 type: "POST",
@@ -1669,6 +1669,7 @@ var direccion="1";
             }
                 });
 }
+    
     function actualizar_correos_destinatarios(id_usuario,arr_id_usuario_envio,id_nivel){
     
        $.ajax(  {
@@ -1706,6 +1707,7 @@ var direccion="1";
                 });
         
     }
+    
     function actualizar_opciones_roles(){
       $('#contenido_multiple_opciones').val($('#select_opciones').val());
         Swal.fire({
@@ -1875,6 +1877,7 @@ var direccion="1";
        }
         
    }
+    
     function aviso_registro_area_rol(tipo,mensaje,id_modal,control,form){
         if(tipo=="1")
        {
@@ -1980,6 +1983,7 @@ var direccion="1";
             $('#select_opciones').selectpicker('refresh');
         });        
     }
+    
     function actualizar_estado_operario(id,estado){
         $.get(cruds+'control_actualizar_operario_estado.jsp',{id:id,estado:estado},function(res)
         {
@@ -1987,14 +1991,13 @@ var direccion="1";
         });
     }
     
-     function actualizar_estado_proveedor(id,estado){
+    function actualizar_estado_proveedor(id,estado){
         $.get(cruds+'control_actualizar_proveedor_estado.jsp',{id:id,estado:estado},function(res)
         {
             
         });
     }
 
-    
     function aprobar_registro(id_pedido) {
 
         Swal.fire({
@@ -2183,7 +2186,7 @@ var direccion="1";
         });
     }
     
-    function aprobar_registro_resolucion(id,resolucion,  nota) 
+    function aprobar_registro_resolucion(id,resolucion,  nota,fecha_ejecucion) 
     {
         Swal.fire({
         title: 'CARGA DE RESOLUCION',
@@ -2201,7 +2204,7 @@ var direccion="1";
                 $.ajax({
                 type: "POST",
                 url: cruds + "control_aprobar_resolucion.jsp",
-                data: ({ id: id, txt_resolucion: resolucion, nota: nota}),
+                data: ({ id: id, txt_resolucion: resolucion, nota: nota,fecha_ejecucion:fecha_ejecucion}),
                 beforeSend: function () 
                 {
                     Swal.fire
@@ -2226,7 +2229,7 @@ var direccion="1";
         });
     }
     
-      function aprobar_registro_verificacion(id, nota) 
+    function aprobar_registro_verificacion(id, nota) 
     {
         Swal.fire({
          text: "DESEA APROBAR LA VERIFICACION?",
@@ -2303,11 +2306,17 @@ var direccion="1";
    
     function form_registrar_resolucion( id) 
     {
+        
+    
+    
         var html;
         html = "   <form id='form_cuadro_resolucion'>   \n\
-                        <div  class='form - group'> <a></a>\n\
+                        <br> <a>FECHA DE EJECUCION</a> \n\
+                        <input type='text'placeholder='INGRESE FECHA DE EJECUCION' style='width: 400px; height: 30px' ' id='fecha_ejecucion' name='fecha_ejecucion' class='datepicker'><br>   \n\
+                        <br><br><div  class='form - group'> <a></a>\n\
                             <textarea style='text - transform: uppercase; width: 400px; height: 80px'  required name = 'txt_resolucion' id='txt_resolucion' class='form - control' placeholder='AGREGAR RESOLUCION'></textarea><br><br>\n\
                         </div > \n\
+                        \n\
                         <br><textarea style='text - transform: uppercase; width: 400px; height: 80px'  name = 'nota' id='nota' class='form - control' placeholder='AGREGAR NOTA'></textarea>\n\
                         <br><br><br><input type='submit' value='REGISTRAR' class='form-control bg-success btn color_letra' >  \n\
                     </form> ";
@@ -2326,10 +2335,16 @@ var direccion="1";
             $('#form_cuadro_resolucion').on('submit', function (e) 
             { 
                 e.preventDefault(); 
-                aprobar_registro_resolucion(id,$("#txt_resolucion").val(), $("#nota").val());
+                aprobar_registro_resolucion(id,$("#txt_resolucion").val(), $("#nota").val(), $("#fecha_ejecucion").val());
                 e.stopPropagation();
             });
-        
+             cargar_estilo_calendario();
+            $.get(ruta_consultas+'consulta_fecha.jsp',function(res)
+                {
+                  $('#fecha_ejecucion').val(res.fecha);
+                  
+                 }); 
+    
     }
 
     function form_registrar_verificacion( id) 
@@ -2358,7 +2373,7 @@ var direccion="1";
         
     }
 
- function form_registrar_tipo_problema() 
+    function form_registrar_tipo_problema() 
     {
         var html;
         html = "   <form id='form_cuadro'>   \n\
@@ -2406,7 +2421,7 @@ var direccion="1";
         
     }
     
-      function aviso_registro_tipo_problema(tipo,mensaje,condicion){
+    function aviso_registro_tipo_problema(tipo,mensaje,condicion){
         if(tipo=="1"){
         swal.fire({
                 type: 'success',
@@ -2428,6 +2443,7 @@ var direccion="1";
                 });  
        }
     }
+    
     function aviso_aprobaciones(tipo,mensaje,pagina){
         if(tipo=="1"){
         swal.fire({
@@ -2446,9 +2462,6 @@ var direccion="1";
        }
     }
     
-    
-
-
     function actualizar_pass(){
         var html;
         html = "   <form id='form_cuadro_pass'>   \n\
@@ -2494,9 +2507,8 @@ var direccion="1";
             });
    }
    
-   
     function cancelar_ot(id,tipo_cancelacion,pagina) 
-        {
+    {
             var html;
             html = "   <form id='form_cuadro_cancelacion'>   \n\
                              <br><textarea style='text - transform: uppercase; width: 400px; height: 80px'  required name = 'txt_motivo' id='txt_motivo' class='form - control' placeholder='INGRESE EL MOTIVO'></textarea>\n\
@@ -2541,8 +2553,7 @@ var direccion="1";
                   e.stopPropagation();
                 });
 
-        }   
-    
+    }   
     
     function cargar_estilo_calendario(){
     
@@ -2568,38 +2579,40 @@ var direccion="1";
             
 }
 
-    function activar_datatable_pendientes(){
-          $("#table_pendientes").DataTable(
-            { scrollY:        "500px",
-            scrollX:        true,
-                order: [[11, 'desc']],
-        rowGroup: {
-            //startRender: null,
-            startRender: function ( rows, group ) {
-            
-               return $('<tr/>')
-                    .addClass('colorCheck')
-                    .append( '<td>' + group + '</td>' )
-                    .append( '<td>(TOTAL:' +  rows.count() + ')</td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
-                    .append( '<td></td>' )
+    function activar_datatable_pendientes()
+    {
+        $("#table_pendientes").DataTable(
+        { 
+            //scrollY:    "500px",
+            scrollX:    true,
+            order: [[11, 'desc']],
+            rowGroup: 
+            {
+                startRender: function ( rows, group ) {
+
+                   return $('<tr/>')
+                        .addClass('colorCheck')
+                        .append( '<td>' + group + '</td>' )
+                        .append( '<td>(TOTAL:' +  rows.count() + ')</td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                        .append( '<td></td>' )
+                },
+                dataSrc: 11
             },
-            dataSrc: 11
-        },
-        dom: 'Bfrtip',
+            dom: 'Bfrtip',
             "pageLength": 100,
-       
-            "language": {
+            "language": 
+            {
                 "sSearch":         "Buscar:",
                 "sLengthMenu":     "Mostrar _MENU_ registros",
                 "sZeroRecords":    "No se encontraron resultados",
@@ -2622,8 +2635,8 @@ var direccion="1";
                     _: '%d FILAS COPIADAS' 
                 }
             }  
-        },
-         buttons: [
+            },
+            buttons: [
             {
                 extend: 'copyHtml5',
                 text: 'COPIAR GRILLA',

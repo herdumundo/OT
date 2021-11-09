@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <%@ page session="true" %>
-<%@include  file="chequearsesion.jsp" %>
-<%    String usuario       = (String) sesionOk.getAttribute("usuario");
-      String nivel = (String) sesionOk.getAttribute("desc_nivel");
-      String rol = (String) sesionOk.getAttribute("desc_rol");
+ <%    
+    HttpSession sesionOk = request.getSession();
+    sesionOk.setMaxInactiveInterval(300*6);
+    if (sesionOk.getAttribute("usuario") == null ) 
+    {
+        if(clases.controles.connectSesion==null){
+            
+        }
+        else {
+        clases.controles.connectSesion.close();
+        }
+        response.sendRedirect("login_sesion.jsp");
+    }
+    String usuario       = (String) sesionOk.getAttribute("usuario");
+    String nivel = (String) sesionOk.getAttribute("desc_nivel");
+    String rol = (String) sesionOk.getAttribute("desc_rol");
     
+ 
 %>
 <head>
 

@@ -23,6 +23,7 @@
 <table id="table_pendientes" class="display nowrap" style="width:100%">
     <thead>
         <th >NRO</th>   
+        <th >FECHA EJECUCION</th>   
         <th >CREADO POR</th>   
         <th >DESCRIPCION</th>   
         <th >RESOLUCION</th>   
@@ -41,6 +42,7 @@
         while(rs.next()){ %>  
         <tr>
             <td><%=rs.getString("nro_pedido")%></td>
+            <td><%=rs.getString("fecha_ejecucion")%></td>
             <td><%=rs.getString("nombre_apellido")%></td>
             <td><%=rs.getString("descripcion")%></td>
             <td><%=rs.getString("resolucion")%></td>
